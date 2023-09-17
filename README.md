@@ -1,5 +1,5 @@
 # Xdclassroom
-Permanant classroom live URLs. For study use only, comes with absolutely no warranty.
+Permanant classroom live URLs. For study use only, comes with absolutely no warranty and responsibility.
 
 # URLs
 ## A
