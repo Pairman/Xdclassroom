@@ -2,7 +2,7 @@
 <html>
 
 <head>
-        <script type="text/javascript" src="classrooms.js"></script>
+	<script type="text/javascript" src="classrooms.js"></script>
 	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
 	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
 </head>
@@ -13,10 +13,10 @@
 <title>Xdclassroom</title>
 
 <body>
-        <button onclick="listClassroom()">Classrooms</button>
-        <div id="classrooms" style="display: none">
+	<button onclick="listClassroom()">Classrooms</button>
+	<div id="classrooms" style="display: none">
 		A:
-                <button onclick="reloadClassroom(classrooms.A217)">A-217</button>
+		<button onclick="reloadClassroom(classrooms.A217)">A-217</button>
 		<button onclick="reloadClassroom(classrooms.A226)">A-226</button>
 		<button onclick="reloadClassroom(classrooms.A327)">A-327</button>
 		<button onclick="reloadClassroom(classrooms.A522)">A-522</button>
@@ -42,7 +42,7 @@
 
 		信远:
 		<button onclick="reloadClassroom(classrooms.XYI405)">信远I-405</button>
-        </div>
+	</div>
 
 	<p align="center">
 		<B style="font-size:22px; font-family: sans-serif">Xdclassoom</B>
@@ -89,10 +89,10 @@
 	var intHeight = intWidth / 16 * 9;
 	var strWidth = intWidth.toString() + "px";
 	var strHeight = intHeight.toString() + "px";
-        var pptVideo = "";
-        var studentFull = "";
-        var teacherFull = "";
-        var teacherTrack = "";
+	var pptVideo = "";
+	var studentFull = "";
+	var teacherFull = "";
+	var teacherTrack = "";
 
 	function getScrollBarWidth() {
 		let el = document.createElement("div");
@@ -103,15 +103,15 @@
 	return width;
 }
 
-        function setClassroom(urlStr) {
-                var url = new URL(urlStr);
-                var params = new URLSearchParams(decodeURIComponent(url.search));
-                var info = JSON.parse(params.get("info"));
-                pptVideo = info.videoPath.pptVideo;
-                studentFull = info.videoPath.studentFull;
-                teacherFull = info.videoPath.teacherFull;
-                teacherTrack = info.videoPath.teacherTrack;
-        }
+	function setClassroom(urlStr) {
+		var url = new URL(urlStr);
+		var params = new URLSearchParams(decodeURIComponent(url.search));
+		var info = JSON.parse(params.get("info"));
+		pptVideo = info.videoPath.pptVideo;
+		studentFull = info.videoPath.studentFull;
+		teacherFull = info.videoPath.teacherFull;
+		teacherTrack = info.videoPath.teacherTrack;
+	}
 
 	function reloadClassroom(urlStr) {
 		stop(player0);
@@ -127,9 +127,9 @@
 		player3.stop();
 	}
 
-        function listClassroom() {
+	function listClassroom() {
 		var x = document.getElementById("classrooms");
-                if (x.style.display == "none")
+		if (x.style.display == "none")
 			x.style.display = "block";
 		else
 			x.style.display = "none";
