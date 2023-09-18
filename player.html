@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<script type="text/javascript" src="classrooms.js"></script>
+	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
 	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
 	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
 </head>
@@ -15,15 +15,14 @@
 <body>
 	<button onclick="listClassroom()">Classrooms</button>
 	<div id="classrooms" style="display: none">
-		A:&emsp;
+		A:
 		<button onclick="reloadClassroom(classrooms.A217)">A-217</button>
-		<button onclick="reloadClassroom(classrooms.A220)">A-220</button>
 		<button onclick="reloadClassroom(classrooms.A226)">A-226</button>
 		<button onclick="reloadClassroom(classrooms.A327)">A-327</button>
 		<button onclick="reloadClassroom(classrooms.A522)">A-522</button>
 		<br>
 
-		B:&emsp;
+		B:
 		<button onclick="reloadClassroom(classrooms.B301)">B-301</button>
 		<button onclick="reloadClassroom(classrooms.B306)">B-306</button>
 		<button onclick="reloadClassroom(classrooms.B403)">B-403</button>
@@ -36,12 +35,12 @@
 		<button onclick="reloadClassroom(classrooms.B613)">B-613</button>
 		<br>
 
-		C:&emsp;
+		C:
 		<button onclick="reloadClassroom(classrooms.C126)">C-126</button>
 		<button onclick="reloadClassroom(classrooms.C130)">C-130</button>
 		<br>
 
-		信远:&emsp;
+		信远:
 		<button onclick="reloadClassroom(classrooms.XYI405)">信远I-405</button>
 	</div>
 
