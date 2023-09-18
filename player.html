@@ -14,6 +14,7 @@
 	<div id="classrooms" style="display: none">
 		A:
 		<button onclick="reloadClassroom(classrooms.A217)">A-217</button>
+		<button onclick="reloadClassroom(classrooms.A220)">A-220</button>
 		<button onclick="reloadClassroom(classrooms.A226)">A-226</button>
 		<button onclick="reloadClassroom(classrooms.A327)">A-327</button>
 		<button onclick="reloadClassroom(classrooms.A522)">A-522</button>
@@ -46,6 +47,7 @@
 		&emsp;&emsp;
 		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
 		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
+		<button onclick="sync()">Sync All</button>
 	</p>
 
 	<p align="center">
@@ -204,8 +206,8 @@
 
 	function sync() {
 		var time = player0.getCurrentTime();
-		player1.seek(timestamp);
-		player2.seek(timestamp);
-		player3.seek(timestamp);
+		player1.seek(time);
+		player2.seek(time);
+		player3.seek(time);
 	}
 </script>
