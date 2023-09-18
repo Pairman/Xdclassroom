@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <script type="text/javascript" src="classrooms.js"></script>
+	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
+	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
+</head>
+
+<title>Xdclassroom</title>
+
+<body>
+        <button onclick="listClassroom()">Classrooms</button>
+        <div id="classrooms" style="display: none">
+		A:
+                <button onclick="reloadClassroom(classrooms.A217)">A-217</button>
+		<button onclick="reloadClassroom(classrooms.A226)">A-226</button>
+		<button onclick="reloadClassroom(classrooms.A327)">A-327</button>
+		<button onclick="reloadClassroom(classrooms.A522)">A-522</button>
+		<br>
+
+		B:
+		<button onclick="reloadClassroom(classrooms.B301)">B-301</button>
+		<button onclick="reloadClassroom(classrooms.B306)">B-306</button>
+		<button onclick="reloadClassroom(classrooms.B403)">B-403</button>
+		<button onclick="reloadClassroom(classrooms.B421)">B-421</button>
+		<button onclick="reloadClassroom(classrooms.B501)">B-501</button>
+		<button onclick="reloadClassroom(classrooms.B502)">B-502</button>
+		<button onclick="reloadClassroom(classrooms.B517)">B-517</button>
+		<button onclick="reloadClassroom(classrooms.B608)">B-608</button>
+		<button onclick="reloadClassroom(classrooms.B609)">B-609</button>
+		<button onclick="reloadClassroom(classrooms.B613)">B-613</button>
+		<br>
+
+		C:
+		<button onclick="reloadClassroom(classrooms.C126)">C-126</button>
+		<button onclick="reloadClassroom(classrooms.C130)">C-130</button>
+		<br>
+
+		信远:
+		<button onclick="reloadClassroom(classrooms.XYI405)">信远I-405</button>
+        </div>
+
+	<p align="center">
+		<B style="font-size:22px; font-family: sans-serif">Xdclassoom</B>
+		&emsp;&emsp;
+		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
+		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
+	</p>
+
+	<p align="center">
+		<B style="font-size:16px; font-family: sans-serif">PPTVideo</B>
+		&emsp;&emsp;
+		<button onclick="play(player0)">Play</button>
+		<button onclick="stop(player0)">Stop</button>
+	</p>
+	<div id="video0"></div>
+
+	<p align="center">
+		<B style="font-size:16px; font-family: sans-serif">TeacherTrack</B>
+		&emsp;&emsp;
+		<button onclick="play(player1)">Play</button>
+		<button onclick="stop(player1)">Stop</button>
+	</p>
+	<div id="video1"></div>
+
+	<p align="center">
+		<B style="font-size:16px; font-family: sans-serif">TeacherFull</B>
+		&emsp;&emsp;
+		<button onclick="play(player2)">Play</button>
+		<button onclick="stop(player2)">Stop</button>
+	</p>
+	<div id="video2"></div>
+
+	<p align="center">
+		<B style="font-size:16px; font-family: sans-serif">StudentFull</B>
+		&emsp;&emsp;
+		<button onclick="play(player3)">Play</button>
+		<button onclick="stop(player3)">Stop</button>
+	</p>
+	<div id="video3"></div>
+</body>
+
+<script>
+        var pptVideo = "";
+        var studentFull = "";
+        var teacherFull = "";
+        var teacherTrack = "";
+
+        function setClassroom(urlStr) {
+                var url = new URL(urlStr);
+                var params = new URLSearchParams(decodeURIComponent(url.search));
+                var info = JSON.parse(params.get("info"));
+                pptVideo = info.videoPath.pptVideo;
+                studentFull = info.videoPath.studentFull;
+                teacherFull = info.videoPath.teacherFull;
+                teacherTrack = info.videoPath.teacherTrack;
+        }
+
+	function reloadClassroom(urlStr) {
+		stop(player0);
+		stop(player1);
+		stop(player2);
+		stop(player3);
+		setClassroom(urlStr);
+		player0.loadByUrl(pptVideo);
+		player1.loadByUrl(teacherTrack);
+		player2.loadByUrl(teacherFull);
+		player2.stop();
+		player3.loadByUrl(studentFull);
+		player3.stop();
+	}
+
+        function listClassroom() {
+		var x = document.getElementById("classrooms");
+                if (x.style.display == "none")
+			x.style.display = "block";
+		else
+			x.style.display = "none";
+	}
+
+	setClassroom(classrooms.A217);
+
+	var player0 = new Aliplayer({
+		id: "video0",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: pptVideo
+	}, function (player0) {
+		player0.play();
+		player0.mute();
+		player0.on('canplay',sync);
+	});
+
+	var player1 = new Aliplayer({
+		id: "video1",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: teacherTrack
+	}, function (player1) {
+		player1.mute();
+	});
+
+	var player2 = new Aliplayer({
+		id: "video2",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: teacherFull
+	}, function (player2) {
+		player2.stop();
+		player2.mute();
+	});
+
+	var player3 = new Aliplayer({
+		id: "video3",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: studentFull
+	}, function (player3) {
+		player3.stop();
+		player3.mute();
+	});
+	
+	function play(player) {
+		player.initPlay();
+	}
+
+	function stop(player) {
+		player.stop();
+	}
+
+	function sync() {
+		var time = player0.getCurrentTime();
+		player1.seek(timestamp);
+		player2.seek(timestamp);
+		player3.seek(timestamp);
+	}
+</script>
