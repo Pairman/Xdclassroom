@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
+	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
+</head>
+
+<title>Xdclassroom</title>
+
+<body>
+	<p align="center">
+		<B style="font-size:18px; font-family: sans-serif">Xdclassroom</B>
+		&emsp;&emsp;
+		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
+		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
+	</p>
+	<br><br>
+
+	<p align="center">
+		<B style="font-size:18px; font-family: sans-serif">PPTVideo</B>
+		&emsp;&emsp;
+		<button onclick="play(player0)">Play</button>
+		<button onclick="stop(player0)">Stop</button>
+	</p>
+	<div id="video0"></div>
+	<br><br>
+
+	<p align="center">
+		<B style="font-size:18px; font-family: sans-serif">TeacherTrack</B>
+		&emsp;&emsp;
+		<button onclick="play(player1)">Play</button>
+		<button onclick="stop(player1)">Stop</button>
+	</p>
+	<div id="video1"></div>
+	<br><br>
+
+	<p align="center">
+		<B style="font-size:18px; font-family: sans-serif">TeacherFull</B>
+		&emsp;&emsp;
+		<button onclick="play(player2)">Play</button>
+		<button onclick="stop(player2)">Stop</button>
+	</p>
+	<div id="video2"></div>
+	<br><br>
+
+	<p align="center">
+		<B style="font-size:18px; font-family: sans-serif">StudentFull</B>
+		&emsp;&emsp;
+		<button onclick="play(player3)">Play</button>
+		<button onclick="stop(player3)">Stop</button>
+	</p>
+	<div id="video3"></div>
+	<br><br>
+</body>
+
+<script>
+	function getQ(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return decodeURIComponent(r[2]);
+		return null;
+	}
+
+	var infostr = getQ('info');
+	if (infostr)
+		infostr = decodeURIComponent(infostr);
+	else
+		infostr = '';
+
+	var info;
+	try {
+		info = JSON.parse(infostr);
+	} catch (error) {
+		info = {
+			videoPath: {
+				pptVideo: '',
+				studentFull: '',
+				teacherFull: '',
+				teacherTrack: ''
+			}
+		};
+	}
+
+	var pptVideo = info.videoPath.pptVideo;
+	var studentFull = info.videoPath.studentFull;
+	var teacherFull = info.videoPath.teacherFull;
+	var teacherTrack = info.videoPath.teacherTrack;
+
+	var player0 = new Aliplayer({
+		id: "video0",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: pptVideo
+	}, function (player0) {
+		player0.play();
+		player0.mute();
+		player0.on('canplay',sync);
+	});
+
+	var player1 = new Aliplayer({
+		id: "video1",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: teacherTrack
+	}, function (player1) {
+		player1.mute();
+	});
+
+	var player2 = new Aliplayer({
+		id: "video2",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: teacherFull
+	}, function (player2) {
+		player2.stop();
+		player2.mute();
+	});
+
+	var player3 = new Aliplayer({
+		id: "video3",
+		isLive: true,
+		useH5Prism: true,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: studentFull
+	}, function (player3) {
+		player3.stop();
+		player3.mute();
+	});
+	
+	function play(player) {
+		player.initPlay();
+	}
+
+	function stop(player) {
+		player.stop();
+	}
+
+	function sync() {
+		var time = player0.getCurrentTime();
+		player1.seek(timestamp);
+		player2.seek(timestamp);
+		player3.seek(timestamp);
+	}
+</script>
