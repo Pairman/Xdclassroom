@@ -11,7 +11,7 @@
 
 <title>EULA</title>
 
-<body id="x" style="display: none" onclick="eulaAgree()">
+<body id="eulaBody" style="display: none" onclick="eulaAgree()">
 	<p align="center">
 		<br><br><br><br><br><br><br><br>
 		<B style="font-size:22px; font-family: sans-serif">Xdclassroom</B>
@@ -46,5 +46,6 @@
 	if (eulaCheck() == 1)
 		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org/player.html';
 	else
+		var x = document.getElementById("eulaBody");
 		x.style.display = "block";
 </script>
