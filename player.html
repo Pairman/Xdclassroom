@@ -84,15 +84,7 @@
 </body>
 
 <script>
-	var intWidth = (window.innerWidth - 2 * getScrollBarWidth());
-	var intHeight = intWidth / 16 * 9;
-	var strWidth = intWidth.toString() + "px";
-	var strHeight = intHeight.toString() + "px";
-	var pptVideo = "";
-	var studentFull = "";
-	var teacherFull = "";
-	var teacherTrack = "";
-
+	/* Initialize video container sizes*/
 	function getScrollBarWidth() {
 		let el = document.createElement("div");
 		el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
@@ -101,6 +93,25 @@
 		el.remove();
 	return width;
 }
+
+	var intWidth = (window.innerWidth - 2 * getScrollBarWidth());
+	var intHeight = intWidth / 16 * 9;
+	var strWidth = intWidth.toString() + "px";
+	var strHeight = intHeight.toString() + "px";
+
+	/* Initialize video sources*/
+	function listClassroom() {
+		var x = document.getElementById("classrooms");
+		if (x.style.display == "none")
+			x.style.display = "block";
+		else
+			x.style.display = "none";
+	}
+
+	var pptVideo = "";
+	var studentFull = "";
+	var teacherFull = "";
+	var teacherTrack = "";
 
 	function setClassroom(urlStr) {
 		var url = new URL(urlStr);
@@ -126,15 +137,13 @@
 		player3.stop();
 	}
 
-	function listClassroom() {
-		var x = document.getElementById("classrooms");
-		if (x.style.display == "none")
-			x.style.display = "block";
-		else
-			x.style.display = "none";
+	var arrClassrooms = new Array();
+	var arri = 0;
+	for(var key in classrooms){
+	        arr[arri] = classrooms[key];
+		arri++;
 	}
-
-	setClassroom(classrooms.A217);
+	setClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);
 
 	var player0 = new Aliplayer({
 		id: "video0",
