@@ -11,7 +11,7 @@
 
 <title>EULA</title>
 
-<body onclick="document.cookie='eula=true'; window.location.href='http://xdclassroom.git.pnxlr.eu.org/player.html'">
+<body onclick="eulaAgree(); window.location.href='http://xdclassroom.git.pnxlr.eu.org/player.html'">
 	<p align="center">
 		<br><br><br><br><br><br><br><br>
 		<B style="font-size:22px; font-family: sans-serif">Xdclassroom</B>
@@ -39,9 +39,10 @@
 	}
 
 	function eulaCheck() {
-		const value = ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
-		alert("eula: " + value);
+		return ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
 	}
 
-	
+	if(eulaCheck()==1) {
+		window.location.href='http://xdclassroom.git.pnxlr.eu.org/player.html';
+	}
 </script>
