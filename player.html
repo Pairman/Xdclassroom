@@ -127,15 +127,13 @@
 	function reloadClassroom(urlStr) {
 		stop(player0);
 		stop(player1);
-		stop(player2);
-		stop(player3);
 		setClassroom(urlStr);
 		player0.loadByUrl(pptVideo);
 		player1.loadByUrl(teacherTrack);
 		player2.loadByUrl(teacherFull);
-		player2.stop();
+		stop(player2);
 		player3.loadByUrl(studentFull);
-		player3.stop();
+		stop(player3);
 	}
 
 	var arrClassrooms = new Array();
