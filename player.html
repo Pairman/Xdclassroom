@@ -101,6 +101,14 @@
 </body>
 
 <script>
+	/* Check EULA state */
+	function eulaCheck() {
+		return ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
+	}
+
+	if (eulaCheck() != 1)
+		alert("EULA not agreed");
+
 	/* Initialize video container sizes*/
 	function getScrollBarWidth() {
 		let el = document.createElement("div");
