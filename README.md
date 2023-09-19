@@ -1,2 +1,5 @@
 # [Xdclassroom](https://xdclassroom.git.pnxlr.eu.org/index.html)
-Permanant classroom live URLs. For study use only, comes with absolutely no warranty or responsibility.
+Collection of easy-to-watch classroom livestreams.
+
+1. This work is for study use only.
+2. This work comes with absolutely no warranty.
