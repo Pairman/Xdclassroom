@@ -43,7 +43,7 @@
 		return ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
 	}
 
-	if(eulaCheck()==1)
+	if (eulaCheck() == 1)
 		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org/player.html';
 	else
 		x.style.display = "block"
