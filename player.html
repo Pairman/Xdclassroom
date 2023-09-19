@@ -49,6 +49,7 @@
 		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
 		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
 		<button onclick="sync()">Sync All</button>
+		<button onclick="resize()">Resize All</button>
 	</p>
 
 	<p align="center">
@@ -95,10 +96,18 @@
 	return width;
 }
 
-	var intWidth = (window.innerWidth - 2 * getScrollBarWidth());
-	var intHeight = intWidth / 16 * 9;
-	var strWidth = intWidth.toString() + "px";
-	var strHeight = intHeight.toString() + "px";
+	intWidth = 0;
+	intHeight = 0;
+	var strWidth = "";
+	var strHeight = "";
+	function calculatePlayerSize(){
+		var intWidth = (window.innerWidth - 2 * getScrollBarWidth());
+		var intHeight = intWidth / 16 * 9;
+		strWidth = intWidth.toString() + "px";
+		strHeight = intHeight.toString() + "px";
+	}
+
+	calculatePlayerSize();
 
 	/* Initialize video sources*/
 	function listClassroom() {
@@ -217,5 +226,13 @@
 		player1.seek(time);
 		player2.seek(time);
 		player3.seek(time);
+	}
+
+	function resize() {
+		calculatePlayerSize();
+		player0.setPlayerSize(strWidth,strHeight);
+		player1.setPlayerSize(strWidth,strHeight);
+		player2.setPlayerSize(strWidth,strHeight);
+		player3.setPlayerSize(strWidth,strHeight);
 	}
 </script>
