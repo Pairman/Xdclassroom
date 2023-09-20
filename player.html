@@ -14,7 +14,7 @@
 
 <title>Xdclassroom</title>
 
-<body>
+<body id="playerBody" style="display: none">
 	<button onclick="listClassroom()">Select a Classroom</button>
 	<button onclick="reloadClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);">I'm Feeling Lucky</button>
 	<div id="classrooms" style="display: none">
@@ -109,6 +109,9 @@
 
 	if (eulaCheck() != 1)
 		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org';
+	else
+		var pb = document.getElementById("playerBody");
+		pb.style.display = "block";
 
 	/* Initialize video container sizes*/
 	function getScrollBarWidth() {
@@ -135,11 +138,11 @@
 
 	/* Initialize video sources*/
 	function listClassroom() {
-		var x = document.getElementById("classrooms");
-		if (x.style.display == "none")
-			x.style.display = "block";
+		var cs = document.getElementById("classrooms");
+		if (cs.style.display == "none")
+			cs.style.display = "block";
 		else
-			x.style.display = "none";
+			cs.style.display = "none";
 	}
 
 	var pptVideo = "";
