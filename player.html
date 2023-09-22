@@ -18,6 +18,7 @@
 	<button onclick="listClassroom()">Select a Classroom</button>
 	<button onclick="reloadClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);">I'm Feeling Lucky</button>
 	<button onclick="extractClassroom()">Extract from liveId or URL</button>
+	<button onclick="loadExtracted()">Load extracted URL</button>
 	<div id="classrooms" style="display: none">
 		A:
 		<button onclick="reloadClassroom(classrooms.A211)">A-211</button>
@@ -205,6 +206,11 @@
 			liveId = input;
 		}
 		window.location.href = "https://newesxidian.chaoxing.com/live/getViewUrlHls?liveId=" + liveId;
+	}
+
+	function loadExtracted() {
+		var input = prompt("Input the extracted URL result:");
+		reloadClassroom(urlStr);
 	}
 
 	var arrClassrooms = new Array();
