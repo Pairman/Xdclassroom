@@ -17,7 +17,7 @@
 
 <body id="playerBody" style="display: none">
 	<button onclick="listClassroom()">Select a Classroom</button>
-	<button onclick="reloadClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);">I'm Feeling Lucky</button>
+	<button onclick="randClassroom()">I'm Feeling Lucky</button>
 	<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 	<button onclick="loadExtracted()">Load Extracted URL</button>
 	<div id="classrooms" style="display: none"></div>
@@ -118,6 +118,7 @@
 			cs.style.display = "none";
 	}
 
+	var classroom = "";
 	var pptVideo = "";
 	var studentFull = "";
 	var teacherFull = "";
@@ -127,6 +128,7 @@
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
+		classroom = urlStr;
 		pptVideo = info.videoPath.pptVideo;
 		studentFull = info.videoPath.studentFull;
 		teacherFull = info.videoPath.teacherFull;
@@ -194,9 +196,11 @@
 	}
 
 	// Set random classroom at start
-	var buildingRand = buildingsArr[Math.floor(Math.random() * buildingsArr.length)];
-	var classroomRand = buildingRand[Math.floor(Math.random() * buildingRand.length)];
-	setClassroom(classroomRand);
+	function randClassroom() {
+		var buildingRand = buildingsArr[Math.floor(Math.random() * buildingsArr.length)];
+		var classroomRand = buildingRand[Math.floor(Math.random() * buildingRand.length)];
+		reloadClassroom(classroomRand);
+	}
 
 	var player0 = new Aliplayer({
 		id: "video0",
