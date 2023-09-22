@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 
+	<meta charset="UTF-8">
+	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
+	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
+	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
 <head>
 	<style>
 		button {
 			height: 32px;
 		}
 	</style>
-	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
-	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
-	<script charset="utf-8" type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
 </head>
 
 <title>Xdclassroom</title>
@@ -19,50 +20,7 @@
 	<button onclick="reloadClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);">I'm Feeling Lucky</button>
 	<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 	<button onclick="loadExtracted()">Load Extracted URL</button>
-	<div id="classrooms" style="display: none">
-		A:
-		<button onclick="reloadClassroom(classrooms.A211)">A-211</button>
-		<button onclick="reloadClassroom(classrooms.A217)">A-217</button>
-		<button onclick="reloadClassroom(classrooms.A220)">A-220</button>
-		<button onclick="reloadClassroom(classrooms.A226)">A-226</button>
-		<button onclick="reloadClassroom(classrooms.A305)">A-305</button>
-		<button onclick="reloadClassroom(classrooms.A314)">A-314</button>
-		<button onclick="reloadClassroom(classrooms.A318)">A-318</button>
-		<button onclick="reloadClassroom(classrooms.A327)">A-327</button>
-		<button onclick="reloadClassroom(classrooms.A522)">A-522</button>
-		<br>
-
-		B:
-		<button onclick="reloadClassroom(classrooms.B207)">B-207</button>
-		<button onclick="reloadClassroom(classrooms.B301)">B-301</button>
-		<button onclick="reloadClassroom(classrooms.B306)">B-306</button>
-		<button onclick="reloadClassroom(classrooms.B308)">B-308</button>
-		<button onclick="reloadClassroom(classrooms.B403)">B-403</button>
-		<button onclick="reloadClassroom(classrooms.B421)">B-421</button>
-		<button onclick="reloadClassroom(classrooms.B501)">B-501</button>
-		<button onclick="reloadClassroom(classrooms.B502)">B-502</button>
-		<button onclick="reloadClassroom(classrooms.B503)">B-503</button>
-		<button onclick="reloadClassroom(classrooms.B517)">B-517</button>
-		<button onclick="reloadClassroom(classrooms.B608)">B-608</button>
-		<button onclick="reloadClassroom(classrooms.B609)">B-609</button>
-		<button onclick="reloadClassroom(classrooms.B613)">B-613</button>
-		<br>
-
-		C:
-		<button onclick="reloadClassroom(classrooms.C104)">C-104</button>
-		<button onclick="reloadClassroom(classrooms.C126)">C-126</button>
-		<button onclick="reloadClassroom(classrooms.C130)">C-130</button>
-		<button onclick="reloadClassroom(classrooms.C207)">C-207</button>
-		<br>
-
-		信远:
-		<button onclick="reloadClassroom(classrooms.XYI111)">信远I-111</button>
-		<button onclick="reloadClassroom(classrooms.XYI114)">信远I-114</button>
-		<button onclick="reloadClassroom(classrooms.XYI120)">信远I-120</button>
-		<button onclick="reloadClassroom(classrooms.XYI220)">信远I-220</button>
-		<button onclick="reloadClassroom(classrooms.XYI319)">信远I-319</button>
-		<button onclick="reloadClassroom(classrooms.XYI405)">信远I-405</button>
-	</div>
+	<div id="classrooms" style="display: none"></div>
 
 	<p align="center">
 		<B style="font-size:32px; font-family: sans-serif">Xdclassoom</B>
@@ -213,13 +171,32 @@
 		reloadClassroom(input);
 	}
 
-	var arrClassrooms = new Array();
-	var arri = 0;
-	for(var key in classrooms){
-		arrClassrooms[arri] = classrooms[key];
-		arri++;
+	// Generate clasroom button list
+	const classroomsDiv = document.getElementById("classrooms");
+	var buildingsArr = new Array();
+	for (var buildingName in urls) {
+		var building = urls[buildingName];
+		const div = document.createElement("div");
+		div.innerHTML = buildingName + ": ";
+		classroomsDiv.appendChild(div);
+		var classroomArr = new Array();
+		for (var classroomName in building) {
+			var classroom = building[classroomName];
+			classroomArr.push(classroom);
+			const button = document.createElement("button");
+			button.innerHTML = classroomName;
+			button.onclick = function() {
+				reloadClassroom(classroom);
+			};
+			classroomsDiv.appendChild(button);
+		}
+		buildingsArr.push(classroomArr);
 	}
-	setClassroom(arrClassrooms[Math.floor(Math.random() * arri)]);
+
+	// Set random classroom at start
+	var buildingRand = buildingsArr[Math.floor(Math.random() * buildingsArr.length)];
+	var classroomRand = buildingRand[Math.floor(Math.random() * buildingRand.length)]
+	setClassroom(classroomRand);
 
 	var player0 = new Aliplayer({
 		id: "video0",
