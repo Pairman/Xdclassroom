@@ -154,11 +154,9 @@
 	function extractClassroom() {
 		var input = prompt("Input liveId or livestream URL:");
 		try {
-			alert("urlstr");
-			var url = new URL(urlStr);
+			var url = new URL(input);
 			var params = new URLSearchParams(decodeURIComponent(url.search));
 			var liveId = JSON.parse(params.get("liveId"));
-			alert(liveId);
 		}
 		catch (err) {
 			if (input.length != 8 || isNaN(input)) {
