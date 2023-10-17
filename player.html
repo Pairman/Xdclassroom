@@ -23,7 +23,7 @@
 	<div id="classrooms" style="display: none"></div>
 
 	<p align="center">
-		<B style="font-size:32px; font-family: sans-serif">Xdclassoom</B>
+		<B id="title" style="font-size:32px; font-family: sans-serif">Xdclassoom</B>
 		&emsp;&emsp;
 		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
 		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
@@ -124,10 +124,11 @@
 	var teacherFull = "";
 	var teacherTrack = "";
 
-	function setClassroom(urlStr) {
+	function setClassroom(urlStr, classroomName = "Unknown") {
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
+		document.getElementById("title").innerText = "Xdclassroom: " + classroomName;
 		classroom = urlStr;
 		pptVideo = info.videoPath.pptVideo;
 		studentFull = info.videoPath.studentFull;
@@ -135,10 +136,10 @@
 		teacherTrack = info.videoPath.teacherTrack;
 	}
 
-	function reloadClassroom(urlStr) {
+	function reloadClassroom(urlStr, classroomName = "Unknown") {
 		stop(player0);
 		stop(player1);
-		setClassroom(urlStr);
+		setClassroom(urlStr, classroomName);
 		player0.loadByUrl(pptVideo);
 		unmute(player0);
 		player1.loadByUrl(teacherTrack);
@@ -170,7 +171,7 @@
 
 	function loadExtracted() {
 		var input = prompt("Input the extracted URL result:");
-		reloadClassroom(input);
+		reloadClassroom(input, "UnknownExtracted");
 	}
 
 	// Generate clasroom button list
@@ -187,7 +188,7 @@
 			classroomArr.push(classroom);
 			const button = document.createElement("button");
 			button.innerHTML = classroomName;
-			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\")');
+			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + ', ' + classroomName + '\")');
 			classroomsDiv.appendChild(button);
 		}
 		buildingsArr.push(classroomArr);
@@ -200,7 +201,7 @@
 		return classroomRand;
 	}
 
-	setClassroom(randClassroom());
+	setClassroom(randClassroom(), "UnknownRand");
 
 	var player0 = new Aliplayer({
 		id: "video0",
