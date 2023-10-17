@@ -188,7 +188,7 @@
 			classroomArr.push(classroom);
 			const button = document.createElement("button");
 			button.innerHTML = classroomName;
-			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + ', ' + classroomName + '\")');
+			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + ', this.innerText\")');
 			classroomsDiv.appendChild(button);
 		}
 		buildingsArr.push(classroomArr);
