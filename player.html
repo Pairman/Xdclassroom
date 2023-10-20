@@ -121,17 +121,19 @@
 	}
 
 	var classroom = "";
+	var classroomName = "";
 	var pptVideo = "";
 	var studentFull = "";
 	var teacherFull = "";
 	var teacherTrack = "";
 
-	function setClassroom(urlStr, classroomName = "Unknown") {
+	function setClassroom(urlStr, classroomNameInternal = "Unknown") {
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
 		document.getElementById("title").innerText = "Xdclassroom: " + classroomName;
 		classroom = urlStr;
+		classroomName = classroomNameInternal;
 		pptVideo = info.videoPath.pptVideo;
 		studentFull = info.videoPath.studentFull;
 		teacherFull = info.videoPath.teacherFull;
@@ -201,7 +203,7 @@
 	// Randomly select classroom
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
-		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesAre[bi];
+		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesArr[bi];
 		let ci = Math.floor(Math.random() * classroomsRand.length);
 		var classroomRand = classroomsRand[ci], classroomNameRand = classroomNamesRand[ci];
 		return [classroomRand, classroomNameRand];
