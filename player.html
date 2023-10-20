@@ -131,7 +131,7 @@
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
-		document.getElementById("title").innerText = "Xdclassroom: " + classroomName;
+		document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
 		classroom = urlStr;
 		classroomName = classroomNameInternal;
 		pptVideo = info.videoPath.pptVideo;
