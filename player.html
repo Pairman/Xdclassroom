@@ -18,7 +18,7 @@
 <body id="playerBody" style="display: none">
 	<p align="center">
 		<button onclick="listClassroom()">Select a Classroom</button>
-		<button onclick="reloadClassroom(randClassroom(), 'UnknownRand')">I'm Feeling Lucky</button>
+		<button onclick="let rand = randClassroom(); reloadClassroom(rand[0], rand[1])">I'm Feeling Lucky</button>
 		<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 		<button onclick="loadExtracted()">Load Extracted URL</button>
 	</p>
@@ -178,32 +178,42 @@
 
 	// Generate clasroom button list
 	const classroomsDiv = document.getElementById("classrooms");
-	var buildingsArr = new Array();
+	var buildingsArr = new Array(), buildingNamesArr = new Array();
 	for (var buildingName in urls) {
 		var building = urls[buildingName];
 		const div = document.createElement("div");
 		div.innerHTML = buildingName + ": ";
 		classroomsDiv.appendChild(div);
-		var classroomArr = new Array();
+		var classroomArr = new Array(), classroomNamesArr = new Array();
 		for (var classroomName in building) {
 			var classroom = building[classroomName];
 			classroomArr.push(classroom);
+			classroomNamesArr.push(classroomName);
 			const button = document.createElement("button");
 			button.innerHTML = classroomName;
 			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
 			classroomsDiv.appendChild(button);
 		}
 		buildingsArr.push(classroomArr);
+		buildingNamesArr.push(classroomNamesArr);
 	}
 
-	// Set random classroom at start
+	// Randomly select classroom
 	function randClassroom() {
-		var buildingRand = buildingsArr[Math.floor(Math.random() * buildingsArr.length)];
-		var classroomRand = buildingRand[Math.floor(Math.random() * buildingRand.length)];
-		return classroomRand;
+		let bi = Math.floor(Math.random() * buildingsArr.length);
+		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesAre[bi];
+		let ci = Math.floor(Math.random() * classroomsRand.length);
+		var classroomRand = classroomsRand[ci], classroomNameRand = classroomNamesRand[ci];
+		return [classroomRand, classroomNameRand];
 	}
 
-	setClassroom(randClassroom(), "UnknownRand");
+	// Random classroom on start
+	function initClassroom() {
+		let rand = randClassroom();
+		setClassroom(rand[0], rand[1]);
+	}
+
+	initClassroom();
 
 	var player0 = new Aliplayer({
 		id: "video0",
