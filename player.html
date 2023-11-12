@@ -217,8 +217,8 @@
 	}
 
 	function initClassroom() {
-		crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
-		cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
+		let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
+		let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
 		if (crn !== '' && cr != '')
 			setClassroom(cr, crn);
 			return;
