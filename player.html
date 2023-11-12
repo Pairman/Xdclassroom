@@ -42,6 +42,7 @@
 		<button onclick="stop(player0)">Stop</button>
 		<button onclick="unmute(player0)">Unmute</button>
 		<button onclick="mute(player0)">Mute</button>
+		<button onclick="scan(player0)">Scan</button>
 	</p>
 	<div id="video0"></div>
 
@@ -77,7 +78,7 @@
 </body>
 
 <script>
-	/* Check EULA state */
+	/* Check EULA state. */
 	function eulaCheck() {
 		return ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
 	}
@@ -88,7 +89,7 @@
 		var pb = document.getElementById("playerBody");
 		pb.style.display = "block";
 
-	/* Initialize video container sizes*/
+	/* Initialize video container sizes. */
 	function getScrollBarWidth() {
 		let el = document.createElement("div");
 		el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
@@ -111,7 +112,7 @@
 
 	calculatePlayerSize();
 
-	/* Initialize video sources*/
+	/* Initialize video sources. */
 	function listClassroom() {
 		var cs = document.getElementById("classrooms");
 		if (cs.style.display == "none")
@@ -127,6 +128,7 @@
 	var teacherFull = "";
 	var teacherTrack = "";
 
+	/* Video sources control. */
 	function setClassroom(urlStr, classroomNameInternal = "Unknown") {
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
@@ -178,7 +180,7 @@
 		reloadClassroom(input, "UnknownExtracted");
 	}
 
-	// Generate clasroom button list
+	/* Generate clasroom buttons list. */
 	const classroomsDiv = document.getElementById("classrooms");
 	var buildingsArr = new Array(), buildingNamesArr = new Array();
 	for (var buildingName in urls) {
@@ -200,7 +202,7 @@
 		buildingNamesArr.push(classroomNamesArr);
 	}
 
-	// Randomly select classroom
+	/* Random startup classroom. */
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
 		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesArr[bi];
@@ -209,7 +211,6 @@
 		return [classroomRand, classroomNameRand];
 	}
 
-	// Random classroom on start
 	function initClassroom() {
 		let rand = randClassroom();
 		setClassroom(rand[0], rand[1]);
@@ -217,6 +218,7 @@
 
 	initClassroom();
 
+	/* Video players. */
 	var player0 = new Aliplayer({
 		id: "video0",
 		isLive: true,
@@ -276,7 +278,8 @@
 		player3.stop();
 		player3.mute();
 	});
-	
+
+	/* Video player controls. */
 	function play(player) {
 		player.initPlay();
 	}
@@ -306,5 +309,29 @@
 		player1.setPlayerSize(strWidth,strHeight);
 		player2.setPlayerSize(strWidth,strHeight);
 		player3.setPlayerSize(strWidth,strHeight);
+	}
+
+	/* Qrcode scanning. */
+	var decodedData = "";
+	qrcode.callback = function(decodedDATA) {
+		document.getElementById("decoded").innerHTML = decodedData = decodedDATA;
+		prompt("Decoded Data:", decodedData);
+	};
+
+	function screenshot(player) {
+		let canvas = document.createElement('canvas');
+		canvas.width = player.tag.videoWidth;
+		canvas.height = player.tag.videoHeight;
+		let ctx = canvas.getContext("2d");
+		ctx.save();
+		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+		let img_src = canvas.toDataURL("image/jpeg", 0.5);
+		ctx.restore();
+		canvas.remove();
+		return img_src;
+	}
+
+	function scan(player) {
+		qrcode.decode(screenshot(player));
 	}
 </script>
