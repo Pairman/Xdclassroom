@@ -136,6 +136,8 @@
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
+		document.cookie = "classroomName=" + classroomName + "; max-age=31536000;";
+		document.cookie = "classroom=" + classroom + "; max-age=31536000;";
 		document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
 		classroom = urlStr;
 		classroomName = classroomNameInternal;
@@ -205,7 +207,7 @@
 		buildingNamesArr.push(classroomNamesArr);
 	}
 
-	/* Random startup classroom. */
+	/* Retrieve last opened classroom if existent, otherwise randomize one. */
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
 		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesArr[bi];
@@ -215,6 +217,11 @@
 	}
 
 	function initClassroom() {
+		crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
+		cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
+		if (crn !== '' && cr != '')
+			setClassroom(cr, crn);
+			return;
 		let rand = randClassroom();
 		setClassroom(rand[0], rand[1]);
 	}
