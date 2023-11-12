@@ -219,9 +219,10 @@
 	function initClassroom() {
 		let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
 		let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
-		if (crn !== '' && cr != '')
+		if (crn !== '' && cr != '') {
 			setClassroom(cr, crn);
 			return;
+		}
 		let rand = randClassroom();
 		setClassroom(rand[0], rand[1]);
 	}
