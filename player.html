@@ -337,7 +337,7 @@
 		let ctx = canvas.getContext("2d");
 		ctx.save();
 		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-		let img_src = canvas.toDataURL("image/jpeg", 0.1);
+		let img_src = canvas.toDataURL("image/jpeg", 0.5);
 		ctx.restore();
 		canvas.remove();
 		return img_src;
