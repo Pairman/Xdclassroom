@@ -45,6 +45,7 @@
 		<button onclick="unmute(player0)">Unmute</button>
 		<button onclick="mute(player0)">Mute</button>
 		<button onclick="scan(player0)">Scan</button>
+		<div id="decodedData_player0"></div>
 	</p>
 	<div id="video0"></div>
 
@@ -316,7 +317,7 @@
 	/* Qrcode scanning. */
 	var decodedData = "";
 	qrcode.callback = function(decodedDATA) {
-		document.getElementById("decoded").innerHTML = decodedData = decodedDATA;
+		document.getElementById("decodedData_player0").innerHTML = decodedData = decodedDATA;
 		prompt("Decoded Data:", decodedData);
 	};
 
