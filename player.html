@@ -318,16 +318,17 @@
 	var decodedData = "";
 	qrcode.callback = function(decodedDATA) {
 		document.getElementById("decodedData_player0").innerHTML = decodedData = decodedDATA;
-		prompt("Decoded Data:", decodedData);
+		prompt("Decoded URL:", decodedData);
 	};
 
 	function screenshot(player) {
+		let video = player.tag;
 		let canvas = document.createElement('canvas');
-		canvas.width = player.tag.videoWidth;
-		canvas.height = player.tag.videoHeight;
+		canvas.width = video.videoWidth;
+		canvas.height = video.videoHeight;
 		let ctx = canvas.getContext("2d");
 		ctx.save();
-		ctx.drawImage(player.tag, 0, 0, canvas.width, canvas.height);
+		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		let img_src = canvas.toDataURL("image/jpeg", 0.5);
 		ctx.restore();
 		canvas.remove();
