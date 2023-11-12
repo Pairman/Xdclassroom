@@ -136,8 +136,8 @@
 		var url = new URL(urlStr);
 		var params = new URLSearchParams(decodeURIComponent(url.search));
 		var info = JSON.parse(params.get("info"));
-		document.cookie = "classroomName=" + classroomName + "; max-age=31536000;";
-		document.cookie = "classroom=" + classroom + "; max-age=31536000;";
+		document.cookie = "classroomName=" + classroomNameInternal + "; max-age=31536000;";
+		document.cookie = "classroom=" + urlStr + "; max-age=31536000;";
 		document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
 		classroom = urlStr;
 		classroomName = classroomNameInternal;
