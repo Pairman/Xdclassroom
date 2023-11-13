@@ -109,10 +109,10 @@
 
 	function resize() {
 		calculatePlayerSize();
-		player0.setPlayerSize(strWidth,strHeight);
-		player1.setPlayerSize(strWidth,strHeight);
-		player2.setPlayerSize(strWidth,strHeight);
-		player3.setPlayerSize(strWidth,strHeight);
+		player0.setPlayerSize(strWidth, strHeight);
+		player1.setPlayerSize(strWidth, strHeight);
+		player2.setPlayerSize(strWidth, strHeight);
+		player3.setPlayerSize(strWidth, strHeight);
 	}
 
 	/* Initialize video sources. */
@@ -191,7 +191,7 @@
 	const classroomsDiv = document.getElementById("classrooms");
 	for (let buildingName in urls) {
 		let building = urls[buildingName];
-		const div = document.createElement("div");
+		let div = document.createElement("div");
 		div.innerHTML = buildingName + ": ";
 		classroomsDiv.appendChild(div);
 		let classroomArr = new Array(), classroomNamesArr = new Array();
@@ -199,7 +199,7 @@
 			let classroom = building[classroomName];
 			classroomArr.push(classroom);
 			classroomNamesArr.push(classroomName);
-			const button = document.createElement("button");
+			let button = document.createElement("button");
 			button.innerHTML = classroomName;
 			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
 			classroomsDiv.appendChild(button);
