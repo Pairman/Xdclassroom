@@ -3,7 +3,7 @@
 
 <title>EULA</title>
 
-<body id="eulaBody" style="display: none; border: solid" onclick="eulaAgree()">
+<body id="eulaBody" style="display: none; border: solid" onclick="document.cookie = 'eula=1; max-age=31536000;'; window.location.href = 'http://xdclassroom.git.pnxlr.eu.org/player.html'">
 	<p align="center">
 		<br><br><br><br><br><br><br><br>
 		<B style="font-size:22px; font-family: sans-serif">Xdclassroom</B>
@@ -26,12 +26,7 @@
 </body>
 
 <script>
-	function eulaAgree() {
-		document.cookie = "eula=1; max-age=31536000;";
-		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org/player.html';
-	}
-
-	if (('; '+document.cookie).split(`; eula=`).pop().split(';')[0] == 1)
+	if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] == 1)
 		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org/player.html';
 	else
 		document.getElementById("eulaBody").style.display = "block";
