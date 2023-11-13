@@ -182,7 +182,7 @@
 
 	function loadExtracted() {
 		let input = prompt("Input the extracted URL result:");
-		reloadClassroom(input, "UnknownExtracted");
+		reloadClassroom(input, "Extracted");
 	}
 
 	/* Generate clasroom buttons list. */
@@ -211,7 +211,7 @@
 	/* Retrieve last opened classroom if existent, otherwise randomize one. */
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
-		let ci = Math.floor(Math.random() * classroomsRand.length);
+		let ci = Math.floor(Math.random() * buildingsArr[bi].length);
 		return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
 	}
 
