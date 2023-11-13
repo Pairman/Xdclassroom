@@ -81,15 +81,10 @@
 
 <script>
 	/* Check EULA state. */
-	function eulaCheck() {
-		return ('; '+document.cookie).split(`; eula=`).pop().split(';')[0];
-	}
-
-	if (eulaCheck() != 1)
+	if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 		window.location.href = 'http://xdclassroom.git.pnxlr.eu.org';
 	else
-		var pb = document.getElementById("playerBody");
-		pb.style.display = "block";
+		document.getElementById("playerBody").style.display = "block";
 
 	/* Initialize video container sizes. */
 	function getScrollBarWidth() {
@@ -98,21 +93,27 @@
 		document.body.appendChild(el);
 		let width = el.offsetWidth - el.clientWidth;
 		el.remove();
-	return width;
-}
+		return width;
+	}
 
-	intWidth = 0;
-	intHeight = 0;
 	var strWidth = "";
 	var strHeight = "";
 	function calculatePlayerSize(){
-		var intWidth = (window.innerWidth - 2 * getScrollBarWidth());
-		var intHeight = intWidth / 16 * 9;
+		let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
+		let intHeight = intWidth / 16 * 9;
 		strWidth = intWidth.toString() + "px";
 		strHeight = intHeight.toString() + "px";
 	}
 
 	calculatePlayerSize();
+
+	function resize() {
+		calculatePlayerSize();
+		player0.setPlayerSize(strWidth,strHeight);
+		player1.setPlayerSize(strWidth,strHeight);
+		player2.setPlayerSize(strWidth,strHeight);
+		player3.setPlayerSize(strWidth,strHeight);
+	}
 
 	/* Initialize video sources. */
 	function listClassroom() {
@@ -132,9 +133,9 @@
 
 	/* Video sources control. */
 	function setClassroom(urlStr, classroomNameInternal = "Unknown") {
-		var url = new URL(urlStr);
-		var params = new URLSearchParams(decodeURIComponent(url.search));
-		var info = JSON.parse(params.get("info"));
+		let url = new URL(urlStr);
+		let params = new URLSearchParams(decodeURIComponent(url.search));
+		let info = JSON.parse(params.get("info"));
 		document.cookie = "classroomName=" + classroomNameInternal + "; max-age=31536000;";
 		document.cookie = "classroom=" + urlStr + "; max-age=31536000;";
 		document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
@@ -163,11 +164,11 @@
 	}
 
 	function extractClassroom() {
-		var input = prompt("Input liveId or livestream URL:");
+		let input = prompt("Input liveId or livestream URL:");
 		try {
-			var url = new URL(input);
-			var params = new URLSearchParams(decodeURIComponent(url.search));
-			var liveId = JSON.parse(params.get("liveId"));
+			let url = new URL(input);
+			let params = new URLSearchParams(decodeURIComponent(url.search));
+			let liveId = JSON.parse(params.get("liveId"));
 		}
 		catch (err) {
 			if (input.length != 8 || isNaN(input)) {
@@ -180,21 +181,22 @@
 	}
 
 	function loadExtracted() {
-		var input = prompt("Input the extracted URL result:");
+		let input = prompt("Input the extracted URL result:");
 		reloadClassroom(input, "UnknownExtracted");
 	}
 
 	/* Generate clasroom buttons list. */
+	var buildingsArr = new Array();
+	var buildingNamesArr = new Array();
 	const classroomsDiv = document.getElementById("classrooms");
-	var buildingsArr = new Array(), buildingNamesArr = new Array();
-	for (var buildingName in urls) {
-		var building = urls[buildingName];
+	for (let buildingName in urls) {
+		let building = urls[buildingName];
 		const div = document.createElement("div");
 		div.innerHTML = buildingName + ": ";
 		classroomsDiv.appendChild(div);
-		var classroomArr = new Array(), classroomNamesArr = new Array();
-		for (var classroomName in building) {
-			var classroom = building[classroomName];
+		let classroomArr = new Array(), classroomNamesArr = new Array();
+		for (let classroomName in building) {
+			let classroom = building[classroomName];
 			classroomArr.push(classroom);
 			classroomNamesArr.push(classroomName);
 			const button = document.createElement("button");
@@ -209,10 +211,8 @@
 	/* Retrieve last opened classroom if existent, otherwise randomize one. */
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
-		let classroomsRand = buildingsArr[bi], classroomNamesRand = buildingNamesArr[bi];
 		let ci = Math.floor(Math.random() * classroomsRand.length);
-		var classroomRand = classroomsRand[ci], classroomNameRand = classroomNamesRand[ci];
-		return [classroomRand, classroomNameRand];
+		return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
 	}
 
 	function initClassroom() {
@@ -270,8 +270,8 @@
 		preload: true,
 		source: teacherFull
 	}, function (player2) {
-		player2.stop();
 		player2.mute();
+		player2.stop();
 	});
 
 	var player3 = new Aliplayer({
@@ -285,11 +285,18 @@
 		preload: true,
 		source: studentFull
 	}, function (player3) {
-		player3.stop();
 		player3.mute();
+		player3.stop();
 	});
 
 	/* Video player controls. */
+	function sync() {
+		let time = player0.getCurrentTime();
+		player1.seek(time);
+		player2.seek(time);
+		player3.seek(time);
+	}
+
 	function play(player) {
 		player.initPlay();
 	}
@@ -304,21 +311,6 @@
 
 	function mute(player) {
 		player.setVolume(0);
-	}
-
-	function sync() {
-		var time = player0.getCurrentTime();
-		player1.seek(time);
-		player2.seek(time);
-		player3.seek(time);
-	}
-
-	function resize() {
-		calculatePlayerSize();
-		player0.setPlayerSize(strWidth,strHeight);
-		player1.setPlayerSize(strWidth,strHeight);
-		player2.setPlayerSize(strWidth,strHeight);
-		player3.setPlayerSize(strWidth,strHeight);
 	}
 
 	/* Qrcode scanning and jump if being valid signin page. */
