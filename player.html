@@ -321,12 +321,10 @@
 		player3.setPlayerSize(strWidth,strHeight);
 	}
 
-	/* Qrcode scanning and jump if valid. */
-	var decodedData = "";
-	qrcode.callback = function(decodedDATA) {
-		decodedData = decodedDATA;
-		if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
-			window.open(decodedData, '_blank').focus();
+	/* Qrcode scanning and jump if being valid signin page. */
+	qrcode.callback = function (decodedDATA) {
+		if (decodedDATA.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
+			window.open(decodedDATA, '_blank').focus();
 	};
 
 	function screenshot(player) {
