@@ -81,13 +81,113 @@
 </body>
 
 <script>
+	/*
+ 	 * Script.
+   	 */
+
 	/* Check EULA state. */
 	if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 		window.location.href = '../';
 	else
 		document.getElementById("playerBody").style.display = "block";
 
-	/* Initialize video container sizes. */
+	/* Calculate video player dimensions. */
+	var strWidth = "";
+	var strHeight = "";
+	calculatePlayerSize();
+
+	/* Generate clasroom buttons list. */
+	var buildingsArr = new Array();
+	var buildingNamesArr = new Array();
+	const classroomsDiv = document.getElementById("classrooms");
+	for (let buildingName in urls) {
+		let building = urls[buildingName];
+		let div = document.createElement("div");
+		div.innerHTML = buildingName + ": ";
+		classroomsDiv.appendChild(div);
+		let classroomArr = new Array(), classroomNamesArr = new Array();
+		for (let classroomName in building) {
+			let classroom = building[classroomName];
+			classroomArr.push(classroom);
+			classroomNamesArr.push(classroomName);
+			let button = document.createElement("button");
+			button.innerHTML = classroomName;
+			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
+			classroomsDiv.appendChild(button);
+		}
+		buildingsArr.push(classroomArr);
+		buildingNamesArr.push(classroomNamesArr);
+	}
+
+	/* Initialize classroom name and urls. */
+	var classroomName = "";
+	var classroom = "";
+	var pptVideo = "";
+	var studentFull = "";
+	var teacherFull = "";
+	var teacherTrack = "";
+	initClassroom();
+
+	/* Create video players. */
+	var player0 = new Aliplayer({
+		id: "video0",
+		isLive: true,
+		useH5Prism: true,
+		width: strWidth,
+		height: strHeight,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: pptVideo
+	}, function (player0) {
+		player0.play();
+		player0.mute();
+		player0.on('canplay',sync);
+	});
+
+	var player1 = new Aliplayer({
+		id: "video1",
+		isLive: true,
+		useH5Prism: true,
+		width: strWidth,
+		height: strHeight,
+		autoplay: true,
+		playsinline: true,
+		preload: true,
+		source: teacherTrack
+	}, function (player1) {
+		player1.mute();
+	});
+
+	var player2 = new Aliplayer({
+		id: "video2",
+		isLive: true,
+		useH5Prism: true,
+		width: strWidth,
+		height: strHeight,
+		playsinline: true,
+		source: teacherFull
+	}, function (player2) {
+		player2.mute();
+	});
+
+	var player3 = new Aliplayer({
+		id: "video3",
+		isLive: true,
+		useH5Prism: true,
+		width: strWidth,
+		height: strHeight,
+		playsinline: true,
+		source: studentFull
+	}, function (player3) {
+		player3.mute();
+	});
+
+	/*
+ 	 * Function definitions.
+   	 */
+
+	/* Player size controls. */
 	function getScrollBarWidth() {
 		let el = document.createElement("div");
 		el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
@@ -97,16 +197,12 @@
 		return width;
 	}
 
-	var strWidth = "";
-	var strHeight = "";
 	function calculatePlayerSize(){
 		let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
 		let intHeight = intWidth / 16 * 9;
 		strWidth = intWidth.toString() + "px";
 		strHeight = intHeight.toString() + "px";
 	}
-
-	calculatePlayerSize();
 
 	function resize() {
 		calculatePlayerSize();
@@ -116,7 +212,7 @@
 		player3.setPlayerSize(strWidth, strHeight);
 	}
 
-	/* Initialize video sources. */
+	/* Classrooms list toggle. */
 	function listClassroom() {
 		var cs = document.getElementById("classrooms");
 		if (cs.style.display == "none")
@@ -124,13 +220,6 @@
 		else
 			cs.style.display = "none";
 	}
-
-	var classroom = "";
-	var classroomName = "";
-	var pptVideo = "";
-	var studentFull = "";
-	var teacherFull = "";
-	var teacherTrack = "";
 
 	/* Video sources control. */
 	function setClassroom(urlStr, classroomNameInternal = "Unknown") {
@@ -186,29 +275,6 @@
 		reloadClassroom(input, "Extracted");
 	}
 
-	/* Generate clasroom buttons list. */
-	var buildingsArr = new Array();
-	var buildingNamesArr = new Array();
-	const classroomsDiv = document.getElementById("classrooms");
-	for (let buildingName in urls) {
-		let building = urls[buildingName];
-		let div = document.createElement("div");
-		div.innerHTML = buildingName + ": ";
-		classroomsDiv.appendChild(div);
-		let classroomArr = new Array(), classroomNamesArr = new Array();
-		for (let classroomName in building) {
-			let classroom = building[classroomName];
-			classroomArr.push(classroom);
-			classroomNamesArr.push(classroomName);
-			let button = document.createElement("button");
-			button.innerHTML = classroomName;
-			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
-			classroomsDiv.appendChild(button);
-		}
-		buildingsArr.push(classroomArr);
-		buildingNamesArr.push(classroomNamesArr);
-	}
-
 	/* Retrieve last opened classroom if existent, otherwise randomize one. */
 	function randClassroom() {
 		let bi = Math.floor(Math.random() * buildingsArr.length);
@@ -226,69 +292,6 @@
 		let rand = randClassroom();
 		setClassroom(rand[0], rand[1]);
 	}
-
-	initClassroom();
-
-	/* Video players. */
-	var player0 = new Aliplayer({
-		id: "video0",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: pptVideo
-	}, function (player0) {
-		player0.play();
-		player0.mute();
-		player0.on('canplay',sync);
-	});
-
-	var player1 = new Aliplayer({
-		id: "video1",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: teacherTrack
-	}, function (player1) {
-		player1.mute();
-	});
-
-	var player2 = new Aliplayer({
-		id: "video2",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: teacherFull
-	}, function (player2) {
-		player2.mute();
-		player2.stop();
-	});
-
-	var player3 = new Aliplayer({
-		id: "video3",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: studentFull
-	}, function (player3) {
-		player3.mute();
-		player3.stop();
-	});
 
 	/* Video player controls. */
 	function sync() {
