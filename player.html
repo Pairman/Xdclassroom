@@ -1,342 +1,343 @@
 <!DOCTYPE html>
 <html>
+	<title>Xdclassroom</title>
 
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/skins/default/aliplayer-min.css" />
 	<script type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-h5-min.js"></script>
 	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
 	<script type="text/javascript" src="lib/jsqrcode/llqrcode.js"></script>
-<head>
-	<style>
-		button {
-			height: 40px;
-			font-size: 22px;
-		}
-	</style>
-</head>
 
-<title>Xdclassroom</title>
+	<head>
+		<style>
+			button {
+				height: 40px;
+				font-size: 22px;
+			}
+		</style>
+	</head>
 
-<body id="playerBody" style="display: none">
-	<p align="center">
-		<button onclick="listClassroom()">Select a Classroom</button>
-		<button onclick="let rand = randClassroom(); reloadClassroom(rand[0], rand[1])">I'm Feeling Lucky</button>
-		<button onclick="extractClassroom()">Extract from LiveId or URL</button>
-		<button onclick="loadExtracted()">Load Extracted URL</button>
-	</p>
-	<div id="classrooms" style="display: none"></div>
-
-	<p align="center">
-		<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
-		<br>
-		<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
-		<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
-		<button onclick="unmute(player0); unmute(player1); unmute(player2); unmute(player3)">Unmute All</button>
-		<button onclick="mute(player0); mute(player1); mute(player2); mute(player3)">Mute All</button>
-		<button onclick="sync()">Sync All</button>
-		<button onclick="resize()">Resize All</button>
-	</p>
-
-	<p align="center">
-		<B style="font-size:40px; font-family: sans-serif">PPTVideo</B>
-		&emsp;&emsp;
-		<button onclick="play(player0)">Play</button>
-		<button onclick="stop(player0)">Stop</button>
-		<button onclick="unmute(player0)">Unmute</button>
-		<button onclick="mute(player0)">Mute</button>
-		<button onclick="scan(player0)">Scan</button>
-	</p>
-	<div id="video0"></div>
-
-	<p align="center">
-		<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
-		&emsp;&emsp;
-		<button onclick="play(player1)">Play</button>
-		<button onclick="stop(player1)">Stop</button>
-		<button onclick="unmute(player1)">Unmute</button>
-		<button onclick="mute(player1)">Mute</button>
-	</p>
-	<div id="video1"></div>
-
-	<p align="center">
-		<B style="font-size:40px; font-family: sans-serif">TeacherFull</B>
-		&emsp;&emsp;
-		<button onclick="play(player2)">Play</button>
-		<button onclick="stop(player2)">Stop</button>
-		<button onclick="unmute(player2)">Unmute</button>
-		<button onclick="mute(player2)">Mute</button>
-	</p>
-	<div id="video2"></div>
-
-	<p align="center">
-		<B style="font-size:40px; font-family: sans-serif">StudentFull</B>
-		&emsp;&emsp;
-		<button onclick="play(player3)">Play</button>
-		<button onclick="stop(player3)">Stop</button>
-		<button onclick="unmute(player3)">Unmute</button>
-		<button onclick="mute(player3)">Mute</button>
-	</p>
-	<div id="video3"></div>
-</body>
-
-<script>
-	/*
- 	 * Script.
-   	 */
-
-	/* Check EULA state. */
-	if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
-		window.location.href = '../';
-	else
-		document.getElementById("playerBody").style.display = "block";
-
-	/* Calculate video player dimensions. */
-	var strWidth = "";
-	var strHeight = "";
-	calculatePlayerSize();
-
-	/* Generate clasroom buttons list. */
-	var buildingsArr = new Array();
-	var buildingNamesArr = new Array();
-	const classroomsDiv = document.getElementById("classrooms");
-	for (let buildingName in urls) {
-		let building = urls[buildingName];
-		let div = document.createElement("div");
-		div.innerHTML = buildingName + ": ";
-		classroomsDiv.appendChild(div);
-		let classroomArr = new Array(), classroomNamesArr = new Array();
-		for (let classroomName in building) {
-			let classroom = building[classroomName];
-			classroomArr.push(classroom);
-			classroomNamesArr.push(classroomName);
-			let button = document.createElement("button");
-			button.innerHTML = classroomName;
-			button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
-			classroomsDiv.appendChild(button);
-		}
-		buildingsArr.push(classroomArr);
-		buildingNamesArr.push(classroomNamesArr);
-	}
-
-	/* Initialize classroom name and urls. */
-	var classroomName = "";
-	var classroom = "";
-	var pptVideo = "";
-	var studentFull = "";
-	var teacherFull = "";
-	var teacherTrack = "";
-	initClassroom();
-
-	/* Create video players. */
-	var player0 = new Aliplayer({
-		id: "video0",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: pptVideo
-	}, function (player0) {
-		player0.play();
-		player0.mute();
-		player0.on('canplay',sync);
-	});
-
-	var player1 = new Aliplayer({
-		id: "video1",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		autoplay: true,
-		playsinline: true,
-		preload: true,
-		source: teacherTrack
-	}, function (player1) {
-		player1.mute();
-	});
-
-	var player2 = new Aliplayer({
-		id: "video2",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		playsinline: true,
-		source: teacherFull
-	}, function (player2) {
-		player2.mute();
-	});
-
-	var player3 = new Aliplayer({
-		id: "video3",
-		isLive: true,
-		useH5Prism: true,
-		width: strWidth,
-		height: strHeight,
-		playsinline: true,
-		source: studentFull
-	}, function (player3) {
-		player3.mute();
-	});
-
-	/*
- 	 * Function definitions.
-   	 */
-
-	/* Player size controls. */
-	function getScrollBarWidth() {
-		let el = document.createElement("div");
-		el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
-		document.body.appendChild(el);
-		let width = el.offsetWidth - el.clientWidth;
-		el.remove();
-		return width;
-	}
-
-	function calculatePlayerSize(){
-		let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
-		let intHeight = intWidth / 16 * 9;
-		strWidth = intWidth.toString() + "px";
-		strHeight = intHeight.toString() + "px";
-	}
-
-	function resize() {
-		calculatePlayerSize();
-		player0.setPlayerSize(strWidth, strHeight);
-		player1.setPlayerSize(strWidth, strHeight);
-		player2.setPlayerSize(strWidth, strHeight);
-		player3.setPlayerSize(strWidth, strHeight);
-	}
-
-	/* Classrooms list toggle. */
-	function listClassroom() {
-		var cs = document.getElementById("classrooms");
-		if (cs.style.display == "none")
-			cs.style.display = "block";
+	<body id="playerBody" style="display: none">
+		<p align="center">
+			<button onclick="listClassroom()">Select a Classroom</button>
+			<button onclick="let rand = randClassroom(); reloadClassroom(rand[0], rand[1])">I'm Feeling Lucky</button>
+			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
+			<button onclick="loadExtracted()">Load Extracted URL</button>
+		</p>
+		<div id="classrooms" style="display: none"></div>
+	
+		<p align="center">
+			<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
+			<br>
+			<button onclick="play(player0); play(player1); play(player2); play(player3)">Play All</button>
+			<button onclick="stop(player0); stop(player1); stop(player2); stop(player3)">Stop All</button>
+			<button onclick="unmute(player0); unmute(player1); unmute(player2); unmute(player3)">Unmute All</button>
+			<button onclick="mute(player0); mute(player1); mute(player2); mute(player3)">Mute All</button>
+			<button onclick="sync()">Sync All</button>
+			<button onclick="resize()">Resize All</button>
+		</p>
+	
+		<p align="center">
+			<B style="font-size:40px; font-family: sans-serif">PPTVideo</B>
+			&emsp;&emsp;
+			<button onclick="play(player0)">Play</button>
+			<button onclick="stop(player0)">Stop</button>
+			<button onclick="unmute(player0)">Unmute</button>
+			<button onclick="mute(player0)">Mute</button>
+			<button onclick="scan(player0)">Scan</button>
+		</p>
+		<div id="video0"></div>
+	
+		<p align="center">
+			<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
+			&emsp;&emsp;
+			<button onclick="play(player1)">Play</button>
+			<button onclick="stop(player1)">Stop</button>
+			<button onclick="unmute(player1)">Unmute</button>
+			<button onclick="mute(player1)">Mute</button>
+		</p>
+		<div id="video1"></div>
+	
+		<p align="center">
+			<B style="font-size:40px; font-family: sans-serif">TeacherFull</B>
+			&emsp;&emsp;
+			<button onclick="play(player2)">Play</button>
+			<button onclick="stop(player2)">Stop</button>
+			<button onclick="unmute(player2)">Unmute</button>
+			<button onclick="mute(player2)">Mute</button>
+		</p>
+		<div id="video2"></div>
+	
+		<p align="center">
+			<B style="font-size:40px; font-family: sans-serif">StudentFull</B>
+			&emsp;&emsp;
+			<button onclick="play(player3)">Play</button>
+			<button onclick="stop(player3)">Stop</button>
+			<button onclick="unmute(player3)">Unmute</button>
+			<button onclick="mute(player3)">Mute</button>
+		</p>
+		<div id="video3"></div>
+	</body>
+	
+	<script>
+		/*
+	 	 * Script.
+	   	 */
+	
+		/* Check EULA state. */
+		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
+			window.location.href = '../';
 		else
-			cs.style.display = "none";
-	}
-
-	/* Video sources control. */
-	function setClassroom(urlStr, classroomNameInternal = "Unknown") {
-		let url = new URL(urlStr);
-		let params = new URLSearchParams(decodeURIComponent(url.search));
-		let info = JSON.parse(params.get("info"));
-		document.cookie = "classroomName=" + classroomNameInternal + "; max-age=5700;";
-		document.cookie = "classroom=" + urlStr + "; max-age=5700;";
-		document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
-		classroom = urlStr;
-		classroomName = classroomNameInternal;
-		pptVideo = info.videoPath.pptVideo;
-		studentFull = info.videoPath.studentFull;
-		teacherFull = info.videoPath.teacherFull;
-		teacherTrack = info.videoPath.teacherTrack;
-	}
-
-	function reloadClassroom(urlStr, classroomName = "Unknown") {
-		stop(player0);
-		stop(player1);
-		setClassroom(urlStr, classroomName);
-		player0.loadByUrl(pptVideo);
-		unmute(player0);
-		player1.loadByUrl(teacherTrack);
-		mute(player1);
-		player2.loadByUrl(teacherFull);
-		mute(player2);
-		stop(player2);
-		player3.loadByUrl(studentFull);
-		mute(player3);
-		stop(player3);
-	}
-
-	function extractClassroom() {
-		let input = prompt("Input liveId or livestream URL:");
-		try {
-			let url = new URL(input);
-			let params = new URLSearchParams(decodeURIComponent(url.search));
-			let liveId = JSON.parse(params.get("liveId"));
+			document.getElementById("playerBody").style.display = "block";
+	
+		/* Calculate video player dimensions. */
+		var strWidth = "";
+		var strHeight = "";
+		calculatePlayerSize();
+	
+		/* Generate clasroom buttons list. */
+		var buildingsArr = new Array();
+		var buildingNamesArr = new Array();
+		const classroomsDiv = document.getElementById("classrooms");
+		for (let buildingName in urls) {
+			let building = urls[buildingName];
+			let div = document.createElement("div");
+			div.innerHTML = buildingName + ": ";
+			classroomsDiv.appendChild(div);
+			let classroomArr = new Array(), classroomNamesArr = new Array();
+			for (let classroomName in building) {
+				let classroom = building[classroomName];
+				classroomArr.push(classroom);
+				classroomNamesArr.push(classroomName);
+				let button = document.createElement("button");
+				button.innerHTML = classroomName;
+				button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
+				classroomsDiv.appendChild(button);
+			}
+			buildingsArr.push(classroomArr);
+			buildingNamesArr.push(classroomNamesArr);
 		}
-		catch (err) {
-			if (input.length != 8 || isNaN(input)) {
-				alert("Invalid liveId.");
+	
+		/* Initialize classroom name and urls. */
+		var classroomName = "";
+		var classroom = "";
+		var pptVideo = "";
+		var studentFull = "";
+		var teacherFull = "";
+		var teacherTrack = "";
+		initClassroom();
+	
+		/* Create video players. */
+		var player0 = new Aliplayer({
+			id: "video0",
+			isLive: true,
+			useH5Prism: true,
+			width: strWidth,
+			height: strHeight,
+			autoplay: true,
+			playsinline: true,
+			preload: true,
+			source: pptVideo
+		}, function (player0) {
+			player0.play();
+			player0.mute();
+			player0.on('canplay',sync);
+		});
+	
+		var player1 = new Aliplayer({
+			id: "video1",
+			isLive: true,
+			useH5Prism: true,
+			width: strWidth,
+			height: strHeight,
+			autoplay: true,
+			playsinline: true,
+			preload: true,
+			source: teacherTrack
+		}, function (player1) {
+			player1.mute();
+		});
+	
+		var player2 = new Aliplayer({
+			id: "video2",
+			isLive: true,
+			useH5Prism: true,
+			width: strWidth,
+			height: strHeight,
+			playsinline: true,
+			source: teacherFull
+		}, function (player2) {
+			player2.mute();
+		});
+	
+		var player3 = new Aliplayer({
+			id: "video3",
+			isLive: true,
+			useH5Prism: true,
+			width: strWidth,
+			height: strHeight,
+			playsinline: true,
+			source: studentFull
+		}, function (player3) {
+			player3.mute();
+		});
+	
+		/*
+	 	 * Function definitions.
+	   	 */
+	
+		/* Player size controls. */
+		function getScrollBarWidth() {
+			let el = document.createElement("div");
+			el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
+			document.body.appendChild(el);
+			let width = el.offsetWidth - el.clientWidth;
+			el.remove();
+			return width;
+		}
+	
+		function calculatePlayerSize(){
+			let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
+			let intHeight = intWidth / 16 * 9;
+			strWidth = intWidth.toString() + "px";
+			strHeight = intHeight.toString() + "px";
+		}
+	
+		function resize() {
+			calculatePlayerSize();
+			player0.setPlayerSize(strWidth, strHeight);
+			player1.setPlayerSize(strWidth, strHeight);
+			player2.setPlayerSize(strWidth, strHeight);
+			player3.setPlayerSize(strWidth, strHeight);
+		}
+	
+		/* Classrooms list toggle. */
+		function listClassroom() {
+			var cs = document.getElementById("classrooms");
+			if (cs.style.display == "none")
+				cs.style.display = "block";
+			else
+				cs.style.display = "none";
+		}
+	
+		/* Video sources control. */
+		function setClassroom(urlStr, classroomNameInternal = "Unknown") {
+			let url = new URL(urlStr);
+			let params = new URLSearchParams(decodeURIComponent(url.search));
+			let info = JSON.parse(params.get("info"));
+			document.cookie = "classroomName=" + classroomNameInternal + "; max-age=5700;";
+			document.cookie = "classroom=" + urlStr + "; max-age=5700;";
+			document.getElementById("title").innerText = "Xdclassroom: " + classroomNameInternal;
+			classroom = urlStr;
+			classroomName = classroomNameInternal;
+			pptVideo = info.videoPath.pptVideo;
+			studentFull = info.videoPath.studentFull;
+			teacherFull = info.videoPath.teacherFull;
+			teacherTrack = info.videoPath.teacherTrack;
+		}
+	
+		function reloadClassroom(urlStr, classroomName = "Unknown") {
+			stop(player0);
+			stop(player1);
+			setClassroom(urlStr, classroomName);
+			player0.loadByUrl(pptVideo);
+			unmute(player0);
+			player1.loadByUrl(teacherTrack);
+			mute(player1);
+			player2.loadByUrl(teacherFull);
+			mute(player2);
+			stop(player2);
+			player3.loadByUrl(studentFull);
+			mute(player3);
+			stop(player3);
+		}
+	
+		function extractClassroom() {
+			let input = prompt("Input liveId or livestream URL:");
+			try {
+				let url = new URL(input);
+				let params = new URLSearchParams(decodeURIComponent(url.search));
+				let liveId = JSON.parse(params.get("liveId"));
+			}
+			catch (err) {
+				if (input.length != 8 || isNaN(input)) {
+					alert("Invalid liveId.");
+					return;
+				}
+				liveId = input;
+			}
+			window.open("https://newesxidian.chaoxing.com/live/getViewUrlHls?liveId=" + liveId, '_blank').focus();
+		}
+	
+		function loadExtracted() {
+			let input = prompt("Input the extracted URL result:");
+			reloadClassroom(input, "Extracted");
+		}
+	
+		/* Retrieve last opened classroom if existent, otherwise randomize one. */
+		function randClassroom() {
+			let bi = Math.floor(Math.random() * buildingsArr.length);
+			let ci = Math.floor(Math.random() * buildingsArr[bi].length);
+			return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
+		}
+	
+		function initClassroom() {
+			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
+			let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
+			if (crn !== '' && cr != '') {
+				setClassroom(cr, crn);
 				return;
 			}
-			liveId = input;
+			let rand = randClassroom();
+			setClassroom(rand[0], rand[1]);
 		}
-		window.open("https://newesxidian.chaoxing.com/live/getViewUrlHls?liveId=" + liveId, '_blank').focus();
-	}
-
-	function loadExtracted() {
-		let input = prompt("Input the extracted URL result:");
-		reloadClassroom(input, "Extracted");
-	}
-
-	/* Retrieve last opened classroom if existent, otherwise randomize one. */
-	function randClassroom() {
-		let bi = Math.floor(Math.random() * buildingsArr.length);
-		let ci = Math.floor(Math.random() * buildingsArr[bi].length);
-		return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
-	}
-
-	function initClassroom() {
-		let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
-		let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
-		if (crn !== '' && cr != '') {
-			setClassroom(cr, crn);
-			return;
+	
+		/* Video player controls. */
+		function sync() {
+			let time = player0.getCurrentTime();
+			player1.seek(time);
+			player2.seek(time);
+			player3.seek(time);
 		}
-		let rand = randClassroom();
-		setClassroom(rand[0], rand[1]);
-	}
-
-	/* Video player controls. */
-	function sync() {
-		let time = player0.getCurrentTime();
-		player1.seek(time);
-		player2.seek(time);
-		player3.seek(time);
-	}
-
-	function play(player) {
-		player.initPlay();
-	}
-
-	function stop(player) {
-		player.stop();
-	}
-
-	function unmute(player) {
-		player.setVolume(1);
-	}
-
-	function mute(player) {
-		player.setVolume(0);
-	}
-
-	/* Qrcode scanning and jump if being valid signin page. */
-	function screenshot(player) {
-		let video = player.tag;
-		let canvas = document.createElement('canvas');
-		canvas.width = video.videoWidth;
-		canvas.height = video.videoHeight;
-		let ctx = canvas.getContext("2d");
-		ctx.save();
-		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-		let img_src = canvas.toDataURL("image/jpeg", 1.0);
-		ctx.restore();
-		canvas.remove();
-		return img_src;
-	}
-
-	function scan(player) {
-		qrcode.decode(screenshot(player));
-	}
-
-	qrcode.callback = function (decodedData) {
-		if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
-			window.open(decodedData, '_blank').focus();
-	};
-</script>
+	
+		function play(player) {
+			player.initPlay();
+		}
+	
+		function stop(player) {
+			player.stop();
+		}
+	
+		function unmute(player) {
+			player.setVolume(1);
+		}
+	
+		function mute(player) {
+			player.setVolume(0);
+		}
+	
+		/* Qrcode scanning and jump if being valid signin page. */
+		function screenshot(player) {
+			let video = player.tag;
+			let canvas = document.createElement('canvas');
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+			let ctx = canvas.getContext("2d");
+			ctx.save();
+			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+			let img_src = canvas.toDataURL("image/jpeg", 1.0);
+			ctx.restore();
+			canvas.remove();
+			return img_src;
+		}
+	
+		function scan(player) {
+			qrcode.decode(screenshot(player));
+		}
+	
+		qrcode.callback = function (decodedData) {
+			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
+				window.open(decodedData, '_blank').focus();
+		};
+	</script>
+</html>
