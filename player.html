@@ -318,11 +318,6 @@
 	}
 
 	/* Qrcode scanning and jump if being valid signin page. */
-	qrcode.callback = function (decodedDATA) {
-		if (decodedDATA.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
-			window.open(decodedDATA, '_blank').focus();
-	};
-
 	function screenshot(player) {
 		let video = player.tag;
 		let canvas = document.createElement('canvas');
@@ -340,4 +335,9 @@
 	function scan(player) {
 		qrcode.decode(screenshot(player));
 	}
+
+	qrcode.callback = function (decodedData) {
+		if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
+			window.open(decodedData, '_blank').focus();
+	};
 </script>
