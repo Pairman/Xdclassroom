@@ -152,6 +152,7 @@
 			width: strWidth,
 			height: strHeight,
 			playsinline: true,
+			preload: false,
 			source: teacherTrack
 		}, function (player1) {
 			player1.mute();
@@ -165,6 +166,7 @@
 			width: strWidth,
 			height: strHeight,
 			playsinline: true,
+			preload: false,
 			source: teacherFull
 		}, function (player2) {
 			player2.mute();
@@ -178,6 +180,7 @@
 			width: strWidth,
 			height: strHeight,
 			playsinline: true,
+			preload: false,
 			source: studentFull
 		}, function (player3) {
 			player3.mute();
@@ -246,6 +249,7 @@
 			unmute(player0);
 			player1.loadByUrl(teacherTrack);
 			mute(player1);
+			stop(player1);
 			player2.loadByUrl(teacherFull);
 			mute(player2);
 			stop(player2);
