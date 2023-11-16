@@ -45,6 +45,7 @@
 			<button onclick="unmute(player0)">Unmute</button>
 			<button onclick="mute(player0)">Mute</button>
 			<button onclick="scan(player0)">Scan</button>
+			<button onclick="scanRightHalf(player0)">Scan (Right Half)</button>
 		</p>
 		<div id="video0"></div>
 	
@@ -335,9 +336,29 @@
 			canvas.remove();
 			return img_src;
 		}
+
+		function cropRightHalf(img_src) {
+			let img = document.createElement("img");
+			img.src = img_src;
+			let canvas = document.createElement('canvas');
+			canvas.width = 800;
+			canvas.height = 720;
+			let ctx = canvas.getContext("2d");
+			ctx.save();
+			ctx.drawImage(img, 480, 0, 800, 720, 0, 0, 800, 720);
+			// ctx.drawImage(img, 640, 0, 1, 1, 1, 1, 640, 720)
+			let img_src_rh = canvas.toDataURL("image/jpeg", 1.0);
+			ctx.restore();
+			canvas.remove();
+			return img_src_rh;
+		}
 	
 		function scan(player) {
 			qrcode.decode(screenshot(player));
+		}
+
+		function scanRightHalf(player) {
+			qrcode.decode(crop(screenshot(player)));
 		}
 	
 		qrcode.callback = function (decodedData) {
