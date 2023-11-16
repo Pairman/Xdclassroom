@@ -150,12 +150,11 @@
 			useH5Prism: true,
 			width: strWidth,
 			height: strHeight,
-			autoplay: true,
 			playsinline: true,
-			preload: true,
 			source: teacherTrack
 		}, function (player1) {
 			player1.mute();
+			player1.stop();
 		});
 	
 		var player2 = new Aliplayer({
@@ -168,6 +167,7 @@
 			source: teacherFull
 		}, function (player2) {
 			player2.mute();
+			player2.stop();
 		});
 	
 		var player3 = new Aliplayer({
@@ -180,6 +180,7 @@
 			source: studentFull
 		}, function (player3) {
 			player3.mute();
+			player3.stop();
 		});
 	
 		/*
