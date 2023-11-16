@@ -274,10 +274,9 @@
 			let input = prompt("Input the extracted URL result:");
 			try {
 				let url = new URL(input);
+				reloadClassroom(input, "Extracted");
 			}
-			catch (err)
-				return;
-			reloadClassroom(input, "Extracted");
+			catch (err) {}
 		}
 	
 		/* Retrieve last opened classroom if existent, otherwise randomize one. */
