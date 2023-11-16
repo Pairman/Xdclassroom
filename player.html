@@ -350,7 +350,6 @@
 			let ctx = canvas.getContext("2d");
 			ctx.save();
 			ctx.drawImage(img, 480, 0, 800, 720, 0, 0, 800, 720);
-			// ctx.drawImage(img, 640, 0, 1, 1, 1, 1, 640, 720)
 			let img_src_rh = canvas.toDataURL("image/jpeg", 1.0);
 			ctx.restore();
 			canvas.remove();
@@ -362,7 +361,7 @@
 		}
 
 		function scanRightHalf(player) {
-			qrcode.decode(crop(screenshot(player)));
+			qrcode.decode(cropRightHalf(screenshot(player)));
 		}
 	
 		qrcode.callback = function (decodedData) {
