@@ -272,6 +272,11 @@
 	
 		function loadExtracted() {
 			let input = prompt("Input the extracted URL result:");
+			try {
+				let url = new URL(input);
+			}
+			catch (err)
+				return;
 			reloadClassroom(input, "Extracted");
 		}
 	
