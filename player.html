@@ -296,6 +296,15 @@
 			}
 			let rand = randClassroom();
 			setClassroom(rand[0], rand[1]);
+			player1.on("ready", function () {
+				player1.stop();
+			});
+			player2.on("ready", function () {
+				player2.stop();
+			});
+			player3.on("ready", function () {
+				player3.stop();
+			});
 		}
 	
 		/* Video player controls. */
