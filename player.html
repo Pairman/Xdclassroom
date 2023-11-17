@@ -295,11 +295,11 @@
 		/* Video player controls. */
 		function sync() {
 			let time = player0.getCurrentTime();
-			if (player1.getStatus == "playing")
+			if (player1.getStatus() == "playing")
 				player1.seek(time);
-			if (player2.getStatus == "playing")
+			if (player2.getStatus() == "playing")
 				player2.seek(time);
-			if (player3.getStatus == "playing")
+			if (player3.getStatus() == "playing")
 				player3.seek(time);
 		}
 
