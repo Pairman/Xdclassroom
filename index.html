@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html>
+	<title>Xdclassroom</title>
 
-<title>Xdclassroom</title>
+	<link rel="shortcut icon" href="#"/>
 
-<body id="eulaBody" style="display:none; border:solid" onclick="document.cookie = 'eula=1; max-age=31536000;'; window.location.href = 'player.html'">
-	<p align="center">
-		<br><br><br><br><br><br><br><br>
-		<B style="font-size:36px; font-family: sans-serif">Xdclassroom</B>
-		<br><br><br><br>
-		<B style="font-size:26px; font-family: sans-serif">
-			This page displays a collection of
-			<br>
-			easy-to-watch classroom livestreams.
+	<body id="eulaBody" style="display:none; border:solid" onclick="document.cookie = 'eula=1; max-age=31536000;'; window.location.href = 'player.html'">
+		<p align="center">
+			<br><br><br><br><br><br><br><br>
+			<B style="font-size:36px; font-family: sans-serif">Xdclassroom</B>
 			<br><br><br><br>
-			By clicking you agree to the following EULA:
-			<br><br>
-			1. This work is for study use only.
-			<br>
-			2. This work comes with absolutely no warranty.
-			<br><br>
-			You have been warned.
-		</B>
-		<br><br><br><br><br><br><br><br>
-	</p>
-</body>
+			<B style="font-size:26px; font-family: sans-serif">
+				This page displays a collection of
+				<br>
+				easy-to-watch classroom livestreams.
+				<br><br><br><br>
+				By clicking you agree to the following EULA:
+				<br><br>
+				1. This work is for study use only.
+				<br>
+				2. This work comes with absolutely no warranty.
+				<br><br>
+				You have been warned.
+			</B>
+			<br><br><br><br><br><br><br><br>
+		</p>
+	</body>
 
-<script>
-	if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] == 1)
-		window.location.href = 'player.html';
-	else
-		document.getElementById("eulaBody").style.display = "block";
-</script>
+	<script>
+		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] == 1)
+			window.location.href = 'player.html';
+		else
+			document.getElementById("eulaBody").style.display = "block";
+	</script>
+</html>
