@@ -152,15 +152,6 @@
 		}, function (player1) {
 			player1.mute();
 			player1.stop();
-			player1.on('ready', function() {
-				if (!playersHasInitialized[1]) {
-					playersHasInitialized[1] = true;
-					player1.stop();
-				}
-			});
-			player1.on('pause', function() {
-				player1.stop();
-			});
 		});
 
 		var player2 = new Aliplayer({
@@ -174,15 +165,6 @@
 		}, function (player2) {
 			player2.mute();
 			player2.stop();
-			player2.on('ready', function() {
-				if (!playersHasInitialized[2]) {
-					playersHasInitialized[2] = true;
-					player2.stop();
-				}
-			});
-			player2.on('pause', function() {
-				player2.stop();
-			});
 		});
 
 		var player3 = new Aliplayer({
@@ -196,15 +178,6 @@
 		}, function (player3) {
 			player3.mute();
 			player3.stop();
-			player3.on('ready', function() {
-				if (!playersHasInitialized[3]) {
-					playersHasInitialized[3] = true;
-					player3.stop();
-				}
-			});
-			player3.on('pause', function() {
-				player3.stop();
-			});
 		});
 
 		/*
