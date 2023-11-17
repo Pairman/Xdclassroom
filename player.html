@@ -154,8 +154,8 @@
 			playsinline: true,
 			source: teacherTrack
 		}, function (player1) {
-			player1.mute();
 			player1.stop();
+			player1.mute();
 		});
 	
 		var player2 = new Aliplayer({
@@ -167,8 +167,8 @@
 			playsinline: true,
 			source: teacherFull
 		}, function (player2) {
-			player2.mute();
 			player2.stop();
+			player2.mute();
 		});
 	
 		var player3 = new Aliplayer({
@@ -180,8 +180,8 @@
 			playsinline: true,
 			source: studentFull
 		}, function (player3) {
-			player3.mute();
 			player3.stop();
+			player3.mute();
 		});
 	
 		/*
@@ -233,26 +233,25 @@
 			classroom = urlStr;
 			classroomName = classroomNameInternal;
 			pptVideo = info.videoPath.pptVideo;
-			studentFull = info.videoPath.studentFull;
-			teacherFull = info.videoPath.teacherFull;
 			teacherTrack = info.videoPath.teacherTrack;
+			teacherFull = info.videoPath.teacherFull;
+			studentFull = info.videoPath.studentFull;
 		}
 	
 		function reloadClassroom(urlStr, classroomName = "Unknown") {
 			stop(player0);
-			stop(player1);
 			setClassroom(urlStr, classroomName);
 			player0.loadByUrl(pptVideo);
 			unmute(player0);
 			player1.loadByUrl(teacherTrack);
-			mute(player1);
 			stop(player1);
+			mute(player1);
 			player2.loadByUrl(teacherFull);
-			mute(player2);
 			stop(player2);
+			mute(player2);
 			player3.loadByUrl(studentFull);
-			mute(player3);
 			stop(player3);
+			mute(player3);
 		}
 	
 		function extractClassroom() {
@@ -302,9 +301,12 @@
 		/* Video player controls. */
 		function sync() {
 			let time = player0.getCurrentTime();
-			player1.seek(time);
-			player2.seek(time);
-			player3.seek(time);
+			if (player1.getStatus == "playing")
+				player1.seek(time);
+			if (player2.getStatus == "playing")
+				player2.seek(time);
+			if (player3.getStatus == "playing")
+				player3.seek(time);
 		}
 	
 		function play(player) {
