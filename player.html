@@ -340,15 +340,15 @@
 			return img_src;
 		}
 
-		function cropRightHalf(img_src) {
+		function cropRightHalf(player, img_src) {
 			let img = document.createElement("img");
 			img.src = img_src;
 			let canvas = document.createElement('canvas');
-			canvas.width = 800;
-			canvas.height = 720;
+			canvas.width = parseInt(0.6 * player.tag.videoWidth);
+			canvas.height = player.tag.vieoHeight;
 			let ctx = canvas.getContext("2d");
 			ctx.save();
-			ctx.drawImage(img, 480, 0, 800, 720, 0, 0, 800, 720);
+			ctx.drawImage(img, player.tag.videoWidth - canvas.width, 0, canvas.width, player.tag.vieoHeight, 0, 0, canvas.width, player.tag.vieoHeight);
 			let img_src_rh = canvas.toDataURL("image/jpeg", 1.0);
 			ctx.restore();
 			canvas.remove();
