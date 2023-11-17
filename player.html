@@ -240,14 +240,20 @@
 			player0.loadByUrl(pptVideo);
 			unmute(player0);
 			player1.loadByUrl(teacherTrack);
-			stop(player1);
 			mute(player1);
+			player1.on("ready", function () {
+				player1.stop();
+			});
 			player2.loadByUrl(teacherFull);
-			stop(player2);
 			mute(player2);
+			player2.on("ready", function () {
+				player2.stop();
+			});
 			player3.loadByUrl(studentFull);
-			stop(player3);
 			mute(player3);
+			player3.on("ready", function () {
+				player3.stop();
+			});
 		}
 	
 		function extractClassroom() {
