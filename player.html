@@ -363,6 +363,8 @@
 		}
 	
 		qrcode.callback = function (decodedData) {
+			/* Currently we allow Chaoxing check-ins only. */
+			/* Might remove or update restriction if other chek-in platforms used. */
 			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
 				window.open(decodedData, '_blank').focus();
 		};
