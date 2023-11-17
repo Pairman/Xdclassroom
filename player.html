@@ -340,19 +340,18 @@
 			return img_src;
 		}
 
-		function cropRightHalf(player, img_src) {
-			let img = document.createElement("img");
-			img.src = img_src;
+		function screenshotRightHalf(player) {
+			let video = player.tag;
 			let canvas = document.createElement('canvas');
-			canvas.width = parseInt(0.6 * player.tag.videoWidth);
-			canvas.height = player.tag.vieoHeight;
+			canvas.width = parseInt(0.56 * video.videoWidth);
+			canvas.height = video.videoHeight;
 			let ctx = canvas.getContext("2d");
 			ctx.save();
-			ctx.drawImage(img, player.tag.videoWidth - canvas.width, 0, canvas.width, player.tag.vieoHeight, 0, 0, canvas.width, player.tag.vieoHeight);
-			let img_src_rh = canvas.toDataURL("image/jpeg", 1.0);
+			ctx.drawImage(video, video.videoWidth - canvas.width, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+			let img_src = canvas.toDataURL("image/jpeg", 1.0);
 			ctx.restore();
 			canvas.remove();
-			return img_src_rh;
+			return img_src;
 		}
 	
 		function scan(player) {
@@ -360,7 +359,7 @@
 		}
 
 		function scanRightHalf(player) {
-			qrcode.decode(cropRightHalf(player, screenshot(player)));
+			qrcode.decode(screenshotRightHalf(player));
 		}
 	
 		qrcode.callback = function (decodedData) {
