@@ -21,7 +21,7 @@
 			<button onclick="loadExtracted()">Load Extracted URL</button>
 		</p>
 		<div id="classrooms" style="display: none"></div>
-	
+
 		<p align="center">
 			<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
 			<br>
@@ -32,7 +32,7 @@
 			<button onclick="sync()">Sync All</button>
 			<button onclick="resize()">Resize All</button>
 		</p>
-	
+
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">PPTVideo</B>
 			&emsp;&emsp;
@@ -44,7 +44,7 @@
 			<button onclick="scanRightHalf(player0)">Scan (Right Half)</button>
 		</p>
 		<div id="video0"></div>
-	
+
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
 			&emsp;&emsp;
@@ -54,7 +54,7 @@
 			<button onclick="mute(player1)">Mute</button>
 		</p>
 		<div id="video1"></div>
-	
+
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherFull</B>
 			&emsp;&emsp;
@@ -64,7 +64,7 @@
 			<button onclick="mute(player2)">Mute</button>
 		</p>
 		<div id="video2"></div>
-	
+
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">StudentFull</B>
 			&emsp;&emsp;
@@ -75,23 +75,23 @@
 		</p>
 		<div id="video3"></div>
 	</body>
-	
+
 	<script>
 		/*
 	 	 * Script.
 	   	 */
-	
+
 		/* Check EULA state. */
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 			window.location.href = '../';
 		else
 			document.getElementById("playerBody").style.display = "block";
-	
+
 		/* Calculate video player dimensions. */
 		var strWidth = "";
 		var strHeight = "";
 		calculatePlayerSize();
-	
+
 		/* Generate clasroom buttons list. */
 		var buildingsArr = new Array();
 		var buildingNamesArr = new Array();
@@ -114,7 +114,7 @@
 			buildingsArr.push(classroomArr);
 			buildingNamesArr.push(classroomNamesArr);
 		}
-	
+
 		/* Initialize classroom name and urls. */
 		var classroomName = "";
 		var classroom = "";
@@ -123,7 +123,7 @@
 		var teacherFull = "";
 		var teacherTrack = "";
 		initClassroom();
-	
+
 		/* Create video players. */
 		var player0 = new Aliplayer({
 			id: "video0",
@@ -140,7 +140,7 @@
 			player0.mute();
 			player0.on('canplay',sync);
 		});
-	
+
 		var player1 = new Aliplayer({
 			id: "video1",
 			isLive: true,
@@ -151,6 +151,7 @@
 			source: teacherTrack
 		}, function (player1) {
 			player1.mute();
+			player1.stop();
 			player1.on('ready', function() {
 				if (!playersHasInitialized[1]) {
 					playersHasInitialized[1] = true;
@@ -158,7 +159,7 @@
 				}
 			});
 		});
-	
+
 		var player2 = new Aliplayer({
 			id: "video2",
 			isLive: true,
@@ -169,6 +170,7 @@
 			source: teacherFull
 		}, function (player2) {
 			player2.mute();
+			player2.stop();
 			player2.on('ready', function() {
 				if (!playersHasInitialized[2]) {
 					playersHasInitialized[2] = true;
@@ -176,7 +178,7 @@
 				}
 			});
 		});
-	
+
 		var player3 = new Aliplayer({
 			id: "video3",
 			isLive: true,
@@ -187,6 +189,7 @@
 			source: studentFull
 		}, function (player3) {
 			player3.mute();
+			player3.stop();
 			player3.on('ready', function() {
 				if (!playersHasInitialized[3]) {
 					playersHasInitialized[3] = true;
@@ -194,11 +197,11 @@
 				}
 			});
 		});
-	
+
 		/*
 	 	 * Function definitions.
 	   	 */
-	
+
 		/* Player size controls. */
 		function getScrollBarWidth() {
 			let el = document.createElement("div");
@@ -208,14 +211,14 @@
 			el.remove();
 			return width;
 		}
-	
+
 		function calculatePlayerSize(){
 			let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
 			let intHeight = intWidth / 16 * 9;
 			strWidth = intWidth.toString() + "px";
 			strHeight = intHeight.toString() + "px";
 		}
-	
+
 		function resize() {
 			calculatePlayerSize();
 			player0.setPlayerSize(strWidth, strHeight);
@@ -223,7 +226,7 @@
 			player2.setPlayerSize(strWidth, strHeight);
 			player3.setPlayerSize(strWidth, strHeight);
 		}
-	
+
 		/* Classrooms list toggle. */
 		function listClassroom() {
 			var cs = document.getElementById("classrooms");
@@ -232,7 +235,7 @@
 			else
 				cs.style.display = "none";
 		}
-	
+
 		/* Video sources control. */
 		function setClassroom(urlStr, classroomNameInternal = "Unknown") {
 			let url = new URL(urlStr);
@@ -248,7 +251,7 @@
 			teacherFull = info.videoPath.teacherFull;
 			studentFull = info.videoPath.studentFull;
 		}
-	
+
 		function reloadClassroom(urlStr, classroomName = "Unknown") {
 			stop(player0);
 			setClassroom(urlStr, classroomName);
@@ -264,7 +267,7 @@
 			mute(player3);
 			player3.stop();
 		}
-	
+
 		function extractClassroom() {
 			let input = prompt("Input liveId or livestream URL:");
 			try {
@@ -281,7 +284,7 @@
 			}
 			window.open("https://newesxidian.chaoxing.com/live/getViewUrlHls?liveId=" + liveId, '_blank').focus();
 		}
-	
+
 		function loadExtracted() {
 			let input = prompt("Input the extracted URL result:");
 			try {
@@ -290,7 +293,7 @@
 			}
 			catch (err) {}
 		}
-	
+
 		/* Retrieve last opened classroom if existent, otherwise randomize one. */
 		function randClassroom() {
 			let bi = Math.floor(Math.random() * buildingsArr.length);
@@ -300,16 +303,13 @@
 
 		var playersHasInitialized = [false, false, false, false];
 		function initClassroom() {
-			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
 			let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
-			if (crn !== '' && cr != '') {
-				setClassroom(cr, crn);
-				return;
-			}
-			let rand = randClassroom();
-			setClassroom(rand[0], rand[1]);
+			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
+			if (cr == '' || crn == '')
+				[cr, crn] = randClassroom();
+			setClassroom(cr, crn);
 		}
-	
+
 		/* Video player controls. */
 		function sync() {
 			let time = player0.getCurrentTime();
@@ -320,23 +320,23 @@
 			if (player3.getStatus == "playing")
 				player3.seek(time);
 		}
-	
+
 		function play(player) {
 			player.initPlay();
 		}
-	
+
 		function stop(player) {
 			player.stop();
 		}
-	
+
 		function unmute(player) {
 			player.setVolume(1);
 		}
-	
+
 		function mute(player) {
 			player.setVolume(0);
 		}
-	
+
 		/* Qrcode scanning and jump if being valid signin page. */
 		function screenshot(player) {
 			let video = player.tag;
@@ -365,7 +365,7 @@
 			canvas.remove();
 			return img_src;
 		}
-	
+
 		function scan(player) {
 			qrcode.decode(screenshot(player));
 		}
@@ -373,7 +373,7 @@
 		function scanRightHalf(player) {
 			qrcode.decode(screenshotRightHalf(player));
 		}
-	
+
 		qrcode.callback = function (decodedData) {
 			/* Currently we allow Chaoxing check-ins only. */
 			/* Might remove or update restriction if other chek-in platforms used. */
