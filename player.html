@@ -158,6 +158,9 @@
 					player1.stop();
 				}
 			});
+			player1.on('pause', function() {
+				player1.stop();
+			});
 		});
 
 		var player2 = new Aliplayer({
@@ -177,6 +180,9 @@
 					player2.stop();
 				}
 			});
+			player2.on('pause', function() {
+				player2.stop();
+			});
 		});
 
 		var player3 = new Aliplayer({
@@ -195,6 +201,9 @@
 					playersHasInitialized[3] = true;
 					player3.stop();
 				}
+			});
+			player3.on('pause', function() {
+				player3.stop();
 			});
 		});
 
