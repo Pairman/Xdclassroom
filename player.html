@@ -150,8 +150,13 @@
 			playsinline: true,
 			source: teacherTrack
 		}, function (player1) {
-			player1.stop();
 			player1.mute();
+			player1.on('ready', function() {
+				if (!playersHasInitialized[1]) {
+					playersHasInitialized[1] = true;
+					player1.stop();
+				}
+			});
 		});
 	
 		var player2 = new Aliplayer({
@@ -163,8 +168,13 @@
 			playsinline: true,
 			source: teacherFull
 		}, function (player2) {
-			player2.stop();
 			player2.mute();
+			player2.on('ready', function() {
+				if (!playersHasInitialized[2]) {
+					playersHasInitialized[2] = true;
+					player2.stop();
+				}
+			});
 		});
 	
 		var player3 = new Aliplayer({
@@ -176,8 +186,13 @@
 			playsinline: true,
 			source: studentFull
 		}, function (player3) {
-			player3.stop();
 			player3.mute();
+			player3.on('ready', function() {
+				if (!playersHasInitialized[3]) {
+					playersHasInitialized[3] = true;
+					player3.stop();
+				}
+			});
 		});
 	
 		/*
@@ -241,19 +256,13 @@
 			unmute(player0);
 			player1.loadByUrl(teacherTrack);
 			mute(player1);
-			player1.on("ready", function () {
-				player1.stop();
-			});
+			player1.stop();
 			player2.loadByUrl(teacherFull);
 			mute(player2);
-			player2.on("ready", function () {
-				player2.stop();
-			});
+			player2.stop();
 			player3.loadByUrl(studentFull);
 			mute(player3);
-			player3.on("ready", function () {
-				player3.stop();
-			});
+			player3.stop();
 		}
 	
 		function extractClassroom() {
@@ -288,7 +297,8 @@
 			let ci = Math.floor(Math.random() * buildingsArr[bi].length);
 			return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
 		}
-	
+
+		var playersHasInitialized = [false, false, false, false];
 		function initClassroom() {
 			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
 			let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
@@ -298,15 +308,6 @@
 			}
 			let rand = randClassroom();
 			setClassroom(rand[0], rand[1]);
-			player1.on("ready", function () {
-				player1.stop();
-			});
-			player2.on("ready", function () {
-				player2.stop();
-			});
-			player3.on("ready", function () {
-				player3.stop();
-			});
 		}
 	
 		/* Video player controls. */
