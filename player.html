@@ -360,7 +360,7 @@
 		}
 
 		function scanRightHalf(player) {
-			qrcode.decode(cropRightHalf(screenshot(player)));
+			qrcode.decode(cropRightHalf(player, screenshot(player)));
 		}
 	
 		qrcode.callback = function (decodedData) {
