@@ -240,7 +240,6 @@
 		function reloadClassroom(urlStr, classroomName = "Unknown") {
 			setClassroom(urlStr, classroomName);
 			player0.loadByUrl(pptVideo);
-			stop(player0);
 			player1.loadByUrl(teacherTrack);
 			mute(player1);
 			stop(player1);
