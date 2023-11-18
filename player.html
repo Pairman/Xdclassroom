@@ -13,6 +13,7 @@
 	<head>
 		<style>
 			button {height: 40px; font-size: 22px; user-select: none;}
+			.div-player {padding: 0; margin: 0;}
 		</style>
 	</head>
 
@@ -45,7 +46,7 @@
 			<button onclick="mute(player0)">Mute</button>
 			<button id="player0-button-scan" onclick="scan(player0)">Scan (Whole)</button>
 		</p>
-		<div id="video0"></div>
+		<div class="div-player" id="player0-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
@@ -55,7 +56,7 @@
 			<button onclick="unmute(player1)">Unmute</button>
 			<button onclick="mute(player1)">Mute</button>
 		</p>
-		<div id="video1"></div>
+		<div class="div-player" id="player1-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherFull</B>
@@ -65,7 +66,7 @@
 			<button onclick="unmute(player2)">Unmute</button>
 			<button onclick="mute(player2)">Mute</button>
 		</p>
-		<div id="video2"></div>
+		<div class="div-player" id="player2-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">StudentFull</B>
@@ -75,7 +76,7 @@
 			<button onclick="unmute(player3)">Unmute</button>
 			<button onclick="mute(player3)">Mute</button>
 		</p>
-		<div id="video3"></div>
+		<div class="div-player" id="player3-div"></div>
 	</body>
 
 	<script>
@@ -129,7 +130,7 @@
 		/* Create video players. */
 		scanButtonAddEventListener("player0");
 		var player0 = new Aliplayer({
-			id: "video0",
+			id: "player0-div",
 			isLive: true,
 			useH5Prism: true,
 			width: strWidth,
@@ -144,7 +145,7 @@
 		});
 
 		var player1 = new Aliplayer({
-			id: "video1",
+			id: "player1-div",
 			isLive: true,
 			useH5Prism: true,
 			width: strWidth,
@@ -157,7 +158,7 @@
 		});
 
 		var player2 = new Aliplayer({
-			id: "video2",
+			id: "player2-div",
 			isLive: true,
 			useH5Prism: true,
 			width: strWidth,
@@ -170,7 +171,7 @@
 		});
 
 		var player3 = new Aliplayer({
-			id: "video3",
+			id: "player3-div",
 			isLive: true,
 			useH5Prism: true,
 			width: strWidth,
