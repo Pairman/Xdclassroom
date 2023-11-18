@@ -189,12 +189,12 @@
 
 		/* Player size controls. */
 		function getScrollBarWidth() {
-			let el = document.createElement("div");
-			el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
-			document.body.appendChild(el);
-			let width = el.offsetWidth - el.clientWidth;
-			el.remove();
-			return width;
+			let e = document.createElement("div");
+			e.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
+			document.body.appendChild(e);
+			let w = e.offsetWidth - e.clientWidth;
+			e.remove();
+			return w;
 		}
 
 		function calculatePlayerSize(){
@@ -214,11 +214,11 @@
 
 		/* Classrooms list toggle. */
 		function listClassroom() {
-			var cs = document.getElementById("classrooms");
-			if (cs.style.display == "none")
-				cs.style.display = "block";
+			var e = document.getElementById("classrooms");
+			if (e.style.display == "none")
+				e.style.display = "block";
 			else
-				cs.style.display = "none";
+				e.style.display = "none";
 		}
 
 		/* Video sources control. */
@@ -295,13 +295,13 @@
 
 		/* Video player controls. */
 		function sync() {
-			let time = player0.getCurrentTime();
+			t = player0.getCurrentTime();
 			if (player1.getStatus() == "playing")
-				player1.seek(time);
+				player1.seek(t);
 			if (player2.getStatus() == "playing")
-				player2.seek(time);
+				player2.seek(t);
 			if (player3.getStatus() == "playing")
-				player3.seek(time);
+				player3.seek(t);
 		}
 
 		function play(player) {
@@ -366,7 +366,7 @@
 
 		/* Long press event for mode switching of scan button. */
 		function scanButtonAddEventListener (player_var_name, scan_button_id = player_var_name + "-button-scan", long_press_delay = 300) {
-			const b = document.getElementById(scan_button_id);
+			let b = document.getElementById(scan_button_id);
 			b.setAttribute('data-long-press-delay', long_press_delay);
 			b.addEventListener('long-press', function(e) {
 				if (e.target.getAttribute('data-long-press-status') != 'true') {
