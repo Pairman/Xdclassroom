@@ -102,7 +102,7 @@
 		for (let buildingName in urls) {
 			let building = urls[buildingName];
 			let div = document.createElement("div");
-			div.innerHTML = buildingName + ": ";
+			div.innerHTML = "  " +  buildingName + ": ";
 			classrooms_list_div.appendChild(div);
 			let classroomArr = new Array(), classroomNamesArr = new Array();
 			for (let classroomName in building) {
