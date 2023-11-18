@@ -13,18 +13,17 @@
 	<head>
 		<style>
 			button {height: 40px; font-size: 22px; user-select: none;}
-			.div-player {padding: 0; margin: 0;}
 		</style>
 	</head>
 
-	<body id="playerBody" style="display: none; padding: 0; margin: 0;">
+	<body id="player-body" style="display: none; padding: 0; margin: 0;">
 		<p align="center">
 			<button onclick="listClassroom()">Select a Classroom</button>
 			<button onclick="let rand = randClassroom(); reloadClassroom(rand[0], rand[1])">I'm Feeling Lucky</button>
 			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 			<button onclick="loadExtracted()">Load Extracted URL</button>
 		</p>
-		<div id="classrooms" style="display: none"></div>
+		<div id="classrooms-list-div" style="display: none"></div>
 
 		<p align="center">
 			<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
@@ -46,7 +45,7 @@
 			<button onclick="mute(player0)">Mute</button>
 			<button id="player0-button-scan" onclick="scan(player0)">Scan (Whole)</button>
 		</p>
-		<div class="div-player" id="player0-div"></div>
+		<div id="player0-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
@@ -56,7 +55,7 @@
 			<button onclick="unmute(player1)">Unmute</button>
 			<button onclick="mute(player1)">Mute</button>
 		</p>
-		<div class="div-player" id="player1-div"></div>
+		<div id="player1-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherFull</B>
@@ -66,7 +65,7 @@
 			<button onclick="unmute(player2)">Unmute</button>
 			<button onclick="mute(player2)">Mute</button>
 		</p>
-		<div class="div-player" id="player2-div"></div>
+		<div id="player2-div"></div>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">StudentFull</B>
@@ -76,7 +75,7 @@
 			<button onclick="unmute(player3)">Unmute</button>
 			<button onclick="mute(player3)">Mute</button>
 		</p>
-		<div class="div-player" id="player3-div"></div>
+		<div id="player3-div"></div>
 	</body>
 
 	<script>
@@ -88,7 +87,7 @@
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 			window.location.href = '../';
 		else
-			document.getElementById("playerBody").style.display = "block";
+			document.getElementById("player-body").style.display = "block";
 
 		/* Calculate video player dimensions. */
 		var strWidth = "";
@@ -214,7 +213,7 @@
 
 		/* Classrooms list toggle. */
 		function listClassroom() {
-			var e = document.getElementById("classrooms");
+			var e = document.getElementById("classrooms-list-div");
 			if (e.style.display == "none")
 				e.style.display = "block";
 			else
@@ -274,17 +273,18 @@
 				let url = new URL(input);
 				reloadClassroom(input, "Extracted");
 			}
-			catch (err) {}
+			catch (err) {
+				alert("Invalid URL.");
+			}
 		}
 
 		/* Retrieve last opened classroom if existent, otherwise randomize one. */
 		function randClassroom() {
-			let bi = Math.floor(Math.random() * buildingsArr.length);
-			let ci = Math.floor(Math.random() * buildingsArr[bi].length);
-			return [buildingsArr[bi][ci], buildingNamesArr[bi][ci]];
+			let b = Math.floor(Math.random() * buildingsArr.length);
+			let c = Math.floor(Math.random() * buildingsArr[b].length);
+			return [buildingsArr[b][c], buildingNamesArr[b][c]];
 		}
 
-		var playersHasInitialized = [false, false, false, false];
 		function initClassroom() {
 			let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
 			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
