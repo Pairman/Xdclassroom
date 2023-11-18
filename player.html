@@ -371,14 +371,16 @@
 			const b = document.getElementById(scan_button_id);
 			b.setAttribute('data-long-press-delay', long_press_delay);
 			b.addEventListener('long-press', function(e) {
-				  if (e.target.getAttribute('data-editing') != 'true') {
-					    e.target.setAttribute('onclick', 'scanRightHalf(' + player_var_name + ')');
-					    e.target.innerText = "Scan (Right)";
-				  }
-				  else {
-					    e.target.setAttribute('onclick', 'scan(' + player_var_name + ')');
-					    e.target.innerText = "Scan (Whole)";
-				  }
+				if (e.target.getAttribute('data-long-press-status') != 'true') {
+					e.target.setAttribute('data-long-press-status', 'true');
+					e.target.setAttribute('onclick', 'scanRightHalf(' + player_var_name + ')');
+					e.target.innerText = "Scan (Right)";
+				}
+				else {
+					e.target.setAttribute('data-long-press-status', 'false');
+					e.target.setAttribute('onclick', 'scan(' + player_var_name + ')');
+					e.target.innerText = "Scan (Whole)";
+				}
 			});
 		}
 	</script>
