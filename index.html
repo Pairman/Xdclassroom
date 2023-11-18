@@ -4,7 +4,7 @@
 	<meta name="viewport" content="user-scalable=no">
 	<link rel="shortcut icon" href="#"/>
 
-	<body id="eulaBody" style="display:none; border:solid" onclick="document.cookie = 'eula=1; max-age=31536000;'; window.location.href = 'player.html'">
+	<body id="eula-body" style="display:none; border:solid" onclick="document.cookie = 'eula=1; max-age=31536000;'; window.location.href = 'player.html'">
 		<p align="center">
 			<br><br><br><br><br><br><br><br>
 			<B style="font-size:36px; font-family: sans-serif">Xdclassroom</B>
@@ -30,6 +30,6 @@
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] == 1)
 			window.location.href = 'player.html';
 		else
-			document.getElementById("eulaBody").style.display = "block";
+			document.getElementById("eula-body").style.display = "block";
 	</script>
 </html>
