@@ -97,12 +97,12 @@
 		/* Generate clasroom buttons list. */
 		var buildingsArr = new Array();
 		var buildingNamesArr = new Array();
-		const classroomsDiv = document.getElementById("classrooms");
+		const classrooms_list_div = document.getElementById("classrooms-list-div");
 		for (let buildingName in urls) {
 			let building = urls[buildingName];
 			let div = document.createElement("div");
 			div.innerHTML = buildingName + ": ";
-			classroomsDiv.appendChild(div);
+			classrooms_list_div.appendChild(div);
 			let classroomArr = new Array(), classroomNamesArr = new Array();
 			for (let classroomName in building) {
 				let classroom = building[classroomName];
@@ -111,7 +111,7 @@
 				let button = document.createElement("button");
 				button.innerHTML = classroomName;
 				button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
-				classroomsDiv.appendChild(button);
+				classrooms_list_div.appendChild(button);
 			}
 			buildingsArr.push(classroomArr);
 			buildingNamesArr.push(classroomNamesArr);
