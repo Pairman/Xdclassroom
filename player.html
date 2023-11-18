@@ -368,16 +368,14 @@
 
 		/* Long press event for mode switching of scan button. */
 		function scanButtonAddEventListener (player_var_name, scan_button_id = player_var_name + "-button-scan", long_press_delay = 500) {
-			const button = document.getElementById(scan_button_id).
+			const button = document.getElementById(scan_button_id);
 			button.setAttribute('data-long-press-delay', long_press_delay);
 			button.addEventListener('long-press', function(e) {
 				  if (e.target.getAttribute('data-editing') != 'true') {
-					    e.target.setAttribute('data-editing', 'true');
 					    e.target.setAttribute('onclick', 'scanRightHalf(' + player_var_name + ')');
 					    e.target.innerText = "Scan (Right)";
 				  }
 				  else {
-					    e.target.setAttribute('data-editing', 'false');
 					    e.target.setAttribute('onclick', 'scan(' + player_var_name + ')');
 					    e.target.innerText = "Scan (Whole)";
 				  }
