@@ -91,13 +91,11 @@
 			document.getElementById("player-body").style.display = "block";
 
 		/* Calculate video player dimensions. */
-		var strWidth = "";
-		var strHeight = "";
+		var strWidth = "", strHeight = "";
 		calculatePlayerSize();
 
 		/* Generate clasroom buttons list. */
-		var buildingsArr = new Array();
-		var buildingNamesArr = new Array();
+		var buildingsArr = new Array(), buildingNamesArr = new Array();
 		const classrooms_list_div = document.getElementById("classrooms-list-div");
 		for (let buildingName in urls) {
 			let building = urls[buildingName];
@@ -119,13 +117,12 @@
 		}
 
 		/* Initialize classroom name and urls. */
-		var classroomName = "";
-		var classroom = "";
-		var pptVideo = "";
-		var teacherTrack = "";
-		var teacherFull = "";
-		var studentFull = "";
-		initClassroom();
+		var classroomName = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
+		var classroom = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
+		var pptVideo, teacherTrack, teacherFull, studentFull;
+		if (classroom == '' || classroomName == '')
+			[classroom, classroomName] = randClassroom();
+		setClassroom(classroom, classroomName);
 
 		/* Create video players. */
 		scanButtonAddEventListener("player0");
@@ -142,6 +139,7 @@
 		}, function (player0) {
 			player0.mute();
 			player0.play();
+			player0.on("canplay", sync);
 		});
 
 		var player1 = new Aliplayer({
@@ -198,10 +196,10 @@
 		}
 
 		function calculatePlayerSize(){
-			let intWidth = (window.innerWidth - 2 * getScrollBarWidth());
-			let intHeight = intWidth / 16 * 9;
-			strWidth = intWidth.toString() + "px";
-			strHeight = intHeight.toString() + "px";
+			let w = (window.innerWidth - 2 * getScrollBarWidth());
+			let h = w / 16 * 9;
+			strWidth = w.toString() + "px";
+			strHeight = h.toString() + "px";
 		}
 
 		function resize() {
@@ -284,14 +282,6 @@
 			let b = Math.floor(Math.random() * buildingsArr.length);
 			let c = Math.floor(Math.random() * buildingsArr[b].length);
 			return [buildingsArr[b][c], buildingNamesArr[b][c]];
-		}
-
-		function initClassroom() {
-			let cr = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
-			let crn = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
-			if (cr == '' || crn == '')
-				[cr, crn] = randClassroom();
-			setClassroom(cr, crn);
 		}
 
 		/* Video player controls. */
