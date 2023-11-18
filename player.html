@@ -8,9 +8,14 @@
 	<script type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.16.5/aliplayer-min.js"></script>
 	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
 	<script type="text/javascript" src="lib/jsqrcode/llqrcode.js"></script>
+	<script type="text/javascript" src="lib/long-press-event/long-press-event.min.js"></script>
 
 	<head>
-		<style>button {height: 40px; font-size: 22px;}</style>
+		<style>
+			button {height: 40px; font-size: 22px;}
+			.button-scan {user-select: none;}
+			.button-scan[data-editing="true"] {border: 2px solid #aaa;}
+		</style>
 	</head>
 
 	<body id="playerBody" style="display: none">
@@ -40,8 +45,7 @@
 			<button onclick="stop(player0)">Stop</button>
 			<button onclick="unmute(player0)">Unmute</button>
 			<button onclick="mute(player0)">Mute</button>
-			<button onclick="scan(player0)">Scan</button>
-			<button onclick="scanRightHalf(player0)">Scan (Right Half)</button>
+			<button class="button-scan" onclick="scan(player0)">Scan (Whole Frame)</button>
 		</p>
 		<div id="video0"></div>
 
@@ -119,12 +123,13 @@
 		var classroomName = "";
 		var classroom = "";
 		var pptVideo = "";
-		var studentFull = "";
-		var teacherFull = "";
 		var teacherTrack = "";
+		var teacherFull = "";
+		var studentFull = "";
 		initClassroom();
 
 		/* Create video players. */
+		scanButtonAddEventListener("player0");
 		var player0 = new Aliplayer({
 			id: "video0",
 			isLive: true,
@@ -136,9 +141,8 @@
 			preload: true,
 			source: pptVideo
 		}, function (player0) {
-			player0.play();
 			player0.mute();
-			player0.on('canplay',sync);
+			player0.play();
 		});
 
 		var player1 = new Aliplayer({
@@ -362,5 +366,21 @@
 			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
 				window.open(decodedData, '_blank').focus();
 		};
+
+		/* Long press event for mode switching of scan button. */
+		function scanButtonAddEventListener (playerVarName) {
+			document.addEventListener('long-press', function(e) {
+				  if (e.target.getAttribute('data-editing') != 'true') {
+					    e.target.setAttribute('data-editing', 'true');
+					    e.target.setAttribute('onclick', 'scanRightHalf(' + playerVarName + ')');
+					    e.target.innerText = " Scan (Right Half) ";
+				  }
+				  else {
+					    e.target.setAttribute('data-editing', 'false');
+					    e.target.setAttribute('onclick', 'scan(' + playerVarName + ')');
+					    e.target.innerText = "Scan (Whole Frame)";
+				  }
+			});
+		}
 	</script>
 </html>
