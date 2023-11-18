@@ -236,19 +236,18 @@
 		}
 
 		function reloadClassroom(urlStr, classroomName = "Unknown") {
-			stop(player0);
 			setClassroom(urlStr, classroomName);
 			player0.loadByUrl(pptVideo);
-			unmute(player0);
+			stop(player0);
 			player1.loadByUrl(teacherTrack);
 			mute(player1);
-			player1.stop();
+			stop(player1);
 			player2.loadByUrl(teacherFull);
 			mute(player2);
-			player2.stop();
+			stop(player2);
 			player3.loadByUrl(studentFull);
 			mute(player3);
-			player3.stop();
+			stop(player3);
 		}
 
 		function extractClassroom() {
