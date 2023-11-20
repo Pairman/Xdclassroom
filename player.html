@@ -196,8 +196,8 @@
 		}
 
 		function calculatePlayerSize(){
-			let w = (window.innerWidth - 2 * getScrollBarWidth());
-			let h = w / 16 * 9;
+			let w = (window.innerWidth - getScrollBarWidth());
+			let h = parseInt(w / 16 * 9);
 			strWidth = w.toString() + "px";
 			strHeight = h.toString() + "px";
 		}
