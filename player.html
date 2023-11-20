@@ -95,20 +95,20 @@
 		calculatePlayerSize();
 
 		/* Generate clasroom buttons list. */
-		var buildingsArr = new Array(), buildingNamesArr = new Array();
+		var buildingsArr = [], buildingNamesArr = [];
 		const classrooms_list_div = document.getElementById("classrooms-list-div");
 		for (let buildingName in urls) {
 			let building = urls[buildingName];
 			let div = document.createElement("div");
-			div.innerHTML = buildingName + ": ";
+			div.innerText = buildingName + ": ";
 			classrooms_list_div.appendChild(div);
-			let classroomArr = new Array(), classroomNamesArr = new Array();
+			let classroomArr = [], classroomNamesArr = [];
 			for (let classroomName in building) {
 				let classroom = building[classroomName];
 				classroomArr.push(classroom);
 				classroomNamesArr.push(classroomName);
 				let button = document.createElement("button");
-				button.innerHTML = classroomName;
+				button.innerText = classroomName;
 				button.setAttribute('onclick', 'reloadClassroom(\"' + classroom + '\", \"' + classroomName + '\")');
 				classrooms_list_div.appendChild(button);
 			}
