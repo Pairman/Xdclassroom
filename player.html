@@ -20,7 +20,7 @@
 	<body id="player-body" style="display: none; padding: 0; margin: 0;">
 		<p align="center">
 			<button onclick="listClassroom()">Select a Classroom</button>
-			<button onclick="let rand = randClassroom(); reloadClassroom(rand[0], rand[1])">I'm Feeling Lucky</button>
+			<button onclick="reloadClassroom(...randClassroom())">I'm Feeling Lucky</button>
 			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 			<button onclick="loadExtracted()">Load Extracted URL</button>
 		</p>
@@ -136,7 +136,7 @@
 			playsinline: true,
 			preload: true,
 			source: pptVideo
-		}, function (player0) {
+		}, function(player0) {
 			player0.mute();
 			player0.play();
 			player0.on("canplay", sync);
@@ -150,7 +150,7 @@
 			height: strHeight,
 			playsinline: true,
 			source: teacherTrack
-		}, function (player1) {
+		}, function(player1) {
 			player1.mute();
 			player1.stop();
 		});
@@ -176,7 +176,7 @@
 			height: strHeight,
 			playsinline: true,
 			source: studentFull
-		}, function (player3) {
+		}, function(player3) {
 			player3.mute();
 			player3.stop();
 		});
@@ -348,7 +348,7 @@
 			qrcode.decode(screenshotRightHalf(player));
 		}
 
-		qrcode.callback = function (decodedData) {
+		qrcode.callback = function(decodedData) {
 			/* Currently we allow Chaoxing check-ins only. */
 			/* Might remove or update restriction if other chek-in platforms used. */
 			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
