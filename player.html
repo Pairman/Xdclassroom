@@ -493,11 +493,11 @@
 				document.cookie = "password=" + password + "; max-age=31536000;";
 				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
 				let button_locations = document.createElement("button");
-				button_locations.innerText = classroomName;
+				button_locations.innerText = "Select a location";
 				button_locations.setAttribute('onclick', 'listLocation()');
 				chaoxing_buttons.appendChild(button_locations);
 				let button_activities = document.createElement("button");
-				button_activities.innerText = classroomName;
+				button_activities.innerText = "List Activities";
 				button_activities.setAttribute('onclick', 'listActivity()');
 				chaoxing_buttons.appendChild(button_activities);
 			}
