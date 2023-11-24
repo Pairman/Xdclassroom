@@ -138,7 +138,7 @@
 		for (let buildingName in locations) {
 				let button = document.createElement("button");
 				button.innerText = buildingName;
-				button.setAttribute('onclick', 'location_ = \"' + JSON.stringify(locations[buildingName]) + '\"');
+				button.setAttribute('onclick', 'location_ = ' + JSON.stringify(locations[buildingName]));
 				locations_list_div.appendChild(button);
 		}
 
@@ -292,7 +292,7 @@
 							}
 							type = ((activity["type"] == "2") ? "Qrcode Checkin" : "Location Checkin");
 							button.innerText = type + " (" + activity["active_id"] + ", " + activity["time_left"] + ")";
-							button.setAttribute('onclick', 'chaoxing.checkin_checkin_location(' + JSON.stringify({"active_id": activity["active_id"]}) + ')');
+							button.setAttribute('onclick', 'chaoxingLocationCheckin(' + JSON.stringify({"active_id": activity["active_id"]}) + ')');
 							e.appendChild(button);
 						}
 					}
