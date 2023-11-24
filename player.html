@@ -158,6 +158,7 @@
 
 		/* Initialize Chaoxing class and location. */
 		var chaoxing;
+		var chaoxing_logining = false;
 		var activities_list_loading = false;
 		var location_ = locations["B"];
 
@@ -484,6 +485,9 @@
 
 		/* Log into Chaoxing account. */
 		function chaoxingLogin() {
+			if (chaoxing_logining)
+				return;
+			chaoxing_logining = true;
 			username = ('; '+document.cookie).split(`; username=`).pop().split(';')[0];
 			password = ('; '+document.cookie).split(`; password=`).pop().split(';')[0];
 			if (username == "" || password == "") {
@@ -507,7 +511,8 @@
 				document.getElementById("chaoxing-login-button").style.display = "none";
 			}
 			else
-				alert("Login failed.")
+				alert("Login failed.");
+			chaoxing_logining = false;
 		}
 	</script>
 </html>
