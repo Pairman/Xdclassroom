@@ -156,6 +156,7 @@
 
 		/* Initialize Chaoxing class and location. */
 		var chaoxing;
+		var activities_list_loading = false;
 		var location_ = locations["B"];
 
 		/* Create video players. */
@@ -264,6 +265,11 @@
 
 		/* Activities list toggle. */
 		function listActivity() {
+			if (activities_list_loading)
+				return;
+			activities_list_loading = true;
+			let l = document.getElementById("activities-list-loading-div");
+			l.style.display = "block";
 			let e = document.getElementById("activities-list-div");
 			if (e.style.display == "none") {
 				activities = chaoxing.get_activities();
@@ -271,8 +277,7 @@
 					e.innerHTML = "No ongoing activities.";
 				}
 				else {
-					let l = document.getElementById("activities-list-loading-div");
-					l.style.display = "block"
+					e.replaceChildren();
 					for (let class_id in activities) {
 						let class_activities = activities[class_id];
 						let div = document.createElement("div");
@@ -290,18 +295,18 @@
 							}
 							type = ((activity["type"] == "2") ? "Qrcode Checkin" : "Location Checkin");
 							button.innerText = type + " (" + activity["active_id"] + ", " + activity["time_left"] + ")";
-								button.setAttribute('onclick', 'chaoxing.checkin_checkin_location(' + JSON.stringify({"active_id": activity["active_id"]}) + ')');
-								e.appendChild(button);
-							}
+							button.setAttribute('onclick', 'chaoxing.checkin_checkin_location(' + JSON.stringify({"active_id": activity["active_id"]}) + ')');
+							e.appendChild(button);
 						}
 					}
-				e.style.display = "block";
+				}
 				l.style.display = "none"
+				e.style.display = "block";
 			}
 			else {
 				e.style.display = "none";
-				e.replaceChildren();
 			}
+			activities_list_loading = false;
 		}
 
 		/* Video sources control. */
