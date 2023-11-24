@@ -33,7 +33,6 @@
 			<button onclick="chaoxingLogin()">Chaoxing Login (CORS)</button>
 		</p>
 		<div id="locations-list-div" style="display: none"></div>
-		<div id="activities-list-loading-div" style="display: none">Querying and loading activities.</div>
 		<div id="activities-list-div" style="display: none"></div>
 
 		<p align="center">
@@ -268,8 +267,6 @@
 			if (activities_list_loading)
 				return;
 			activities_list_loading = true;
-			let l = document.getElementById("activities-list-loading-div");
-			l.style.display = "block";
 			let e = document.getElementById("activities-list-div");
 			if (e.style.display == "none") {
 				activities = chaoxing.get_activities();
@@ -300,7 +297,6 @@
 						}
 					}
 				}
-				l.style.display = "none"
 				e.style.display = "block";
 			}
 			else {
