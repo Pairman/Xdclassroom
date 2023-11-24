@@ -281,7 +281,7 @@
 				}
 				type = ((activity["type"] == "2") ? "Qrcode Checkin" : "Location Checkin");
 				button.innerText = type + " (" + activity["active_id"] + ", " + activity["time_left"] + ")";
-					button.setAttribute('onclick', 'chaoxing.');
+					button.setAttribute('onclick', 'chaoxing.checkin_checkin_location(' + JSON.stringify({"active_id": activity["active_id"]}) + ')');
 				e.appendChild(button);
 			}
 		}
@@ -462,6 +462,16 @@
 			});
 		}
 
+		/* Location checkin. */
+		function chaoxingLocationCheckin(activity) {
+			let checkin = chaoxing.checkin_checkin_location(activity, location);
+			if (checkin)
+				alert("Checked in successfully.");
+			else
+				alert("Checkin failed.");
+		}
+
+		/* Log into Chaoxing account. */
 		function chaoxingLogin() {
 			username = ('; '+document.cookie).split(`; username=`).pop().split(';')[0];
 			password = ('; '+document.cookie).split(`; password=`).pop().split(';')[0];
