@@ -139,7 +139,7 @@
 		for (let buildingName in locations) {
 				let button = document.createElement("button");
 				button.innerText = buildingName;
-				button.setAttribute('onclick', 'location = \"' + buildingName + '\"');
+				button.setAttribute('onclick', 'location_ = \"' + buildingName + '\"');
 				classrooms_list_div.appendChild(button);
 		}
 
@@ -152,13 +152,11 @@
 			error: function (res, err) {
 				document.getElementById("chaoxing-buttons").style.display = "none";
 			}
-	});
+		});
 
-		/* Initialize location. */
-		var location = locations["B"];
-
-		/* Initialize Chaoxing class. */
+		/* Initialize Chaoxing class and location. */
 		var chaoxing;
+		var location_ = locations["B"];
 
 		/* Create video players. */
 		scanButtonAddEventListener("player0");
@@ -442,7 +440,7 @@
 				return;
 			try {
 				if (chaoxing.logined) {
-					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location);
+					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location_);
 					if (checkin)
 						alert("Checked in successfully.");
 				}
@@ -473,7 +471,7 @@
 
 		/* Location checkin. */
 		function chaoxingLocationCheckin(activity) {
-			let checkin = chaoxing.checkin_checkin_location(activity, location);
+			let checkin = chaoxing.checkin_checkin_location(activity, location_);
 			if (checkin)
 				alert("Checked in successfully.");
 			else
