@@ -138,7 +138,7 @@
 		for (let buildingName in locations) {
 				let button = document.createElement("button");
 				button.innerText = buildingName;
-				button.setAttribute('onclick', 'location_ = \"' + locations[buildingName] + '\"');
+				button.setAttribute('onclick', 'location_ = \"' + JSON.stringify(locations[buildingName]) + '\"');
 				locations_list_div.appendChild(button);
 		}
 
