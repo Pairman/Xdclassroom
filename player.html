@@ -6,12 +6,12 @@
 	<link rel="shortcut icon" href="#"/>
 	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/skins/default/aliplayer-min.css" />
 	<script type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/aliplayer-min.js"></script>
-	<script>document.write("<script type='text/javascript' src='classrooms.js?v=" + Date.now() + "'><\/script>");</script>
-	<script type="text/javascript" src="lib/jsqrcode/llqrcode.js"></script>
-	<script type="text/javascript" src="lib/long-press-event/long-press-event.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/long-press-event/long-press-event.min.js"></script>
+	<script type="text/javascript" src="lib/xdcheckin-js/locations.js"></script>
 	<script type="text/javascript" src="lib/xdcheckin-js/chaoxing.js"></script>
-	<script>document.write("<script type='text/javascript' src='lib/xdcheckin-js/locations.js?v=" + Date.now() + "'><\/script>");</script>
+	<script type="text/javascript" src="lib/jsqrcode/llqrcode.js"></script>
+	<script type="text/javascript" src="classrooms.js"></script>
 
 	<head>
 		<style>
@@ -26,9 +26,14 @@
 			<button onclick="reloadClassroom(...randClassroom())">I'm Feeling Lucky</button>
 			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 			<button onclick="loadExtracted()">Load Extracted URL</button>
-			<button onclick="chaoxingLogin()">Chaoxing Login (CORS)</button>
 		</p>
 		<div id="classrooms-list-div" style="display: none"></div>
+
+		<p align="center" id="chaoxing-buttons">
+			<button onclick="chaoxingLogin()">Chaoxing Login (CORS)</button>
+		</p>
+		<div id="locations-list-div" style="display: none"></div>
+		<div id="activities-list-div" style="display: none"></div>
 
 		<p align="center">
 			<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
@@ -128,6 +133,21 @@
 			[classroom, classroomName] = randClassroom();
 		setClassroom(classroom, classroomName);
 
+		/* Generate clasroom buttons list. */
+		const locations_list_div = document.getElementById("locations-list-div");
+		for (let buildingName in locations) {
+				let button = document.createElement("button");
+				button.innerText = buildingName;
+				button.setAttribute('onclick', 'location = \"' + buildingName + '\"');
+				classrooms_list_div.appendChild(button);
+		}
+
+		/* Initialize location. */
+		var location = locations["B"];
+
+		/* Initialize Chaoxing class. */
+		var chaoxing;
+
 		/* Create video players. */
 		scanButtonAddEventListener("player0");
 		var player0 = new Aliplayer({
@@ -221,6 +241,60 @@
 				e.style.display = "block";
 			else
 				e.style.display = "none";
+		}
+
+		/* Locations list toggle. */
+		function listLocation() {
+			var e = document.getElementById("locations-list-div");
+			if (e.style.display == "none")
+				e.style.display = "block";
+			else
+				e.style.display = "none";
+		}
+
+		/* Activities list toggle. */
+		function listActivity() {
+			var e = document.getElementById("activities-list-div");
+			if (e.style.display == "none") {
+				activities = chaoxing.get_activities();
+				if (!Object.keys(activities).length) {
+					e.innerHTML = "No ongoing activities.";
+				}
+				else {
+
+
+
+		for (let class_id in activities) {
+			let class_activities = activities[class_id];
+			let div = document.createElement("div");
+			div.innerText = class_id + ": ";
+			e.appendChild(div);
+			for (let i in class_activities) {
+				let activity = class_activities[i];
+				let button = document.createElement("button");
+				let type = "";
+				if (activity["type"] == "2") {
+					button.setAttribute("disabled", "");
+				}
+				else {
+					button.setAttribute('onclick', 'chaoxing.')
+				}
+				type = ((activity["type"] == "2") ? "Qrcode Checkin" : "Location Checkin");
+				button.innerText = type + " (" + activity["active_id"] + ", " + activity["time_left"] + ")";
+					button.setAttribute('onclick', 'chaoxing.');
+				e.appendChild(button);
+			}
+		}
+
+
+
+				}
+				e.style.display = "block";
+			}
+			else {
+				e.style.display = "none";
+				e.replaceChildren();
+			}
 		}
 
 		/* Video sources control. */
@@ -359,8 +433,7 @@
 				return;
 			try {
 				if (chaoxing.logined) {
-					/* TODO: select location according to classroom. Currently defaulted to B. */
-					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, locations["B"]);
+					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location);
 					if (checkin)
 						alert("Checked in successfully.");
 				}
@@ -401,6 +474,15 @@
 				alert("Logined successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
 				document.cookie = "password=" + password + "; max-age=31536000;";
+				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
+				let button_locations = document.createElement("button");
+				button_locations.innerText = classroomName;
+				button_locations.setAttribute('onclick', 'listLocation()');
+				chaoxing_buttons.appendChild(button_locations);
+				let button_activities = document.createElement("button");
+				button_activities.innerText = classroomName;
+				button_activities.setAttribute('onclick', 'listActivity()');
+				chaoxing_buttons.appendChild(button_activities);
 			}
 			else
 				alert("Login failed.")
