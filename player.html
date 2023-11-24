@@ -26,6 +26,7 @@
 			<button onclick="reloadClassroom(...randClassroom())">I'm Feeling Lucky</button>
 			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
 			<button onclick="loadExtracted()">Load Extracted URL</button>
+			<button onclick="chaoxingLogin()">Chaoxing Login (Needs CORS)</button>
 		</p>
 		<div id="classrooms-list-div" style="display: none"></div>
 
@@ -354,8 +355,19 @@
 		qrcode.callback = function(decodedData) {
 			/* Currently we allow Chaoxing check-ins only. */
 			/* Might remove or update restriction if other chek-in platforms used. */
-			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") == 0)
-				window.open(decodedData, '_blank').focus();
+			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") != 0)
+				return;
+			try {
+				if (chaoxing.logined) {
+					/* TODO: select location according to classroom. Currently defaulted to B. */
+					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, locations["B"]);
+					if (checkin)
+						alert("Checked in successfully.");
+				}
+				else {
+					window.open(decodedData, '_blank').focus();
+				}
+			}
 		};
 
 		/* Long press event for mode switching of scan button. */
@@ -375,5 +387,17 @@
 				}
 			});
 		}
+
+		function chaoxingLogin() {
+			username = prompt("Input Chaoxing username:");
+			password = prompt("Input Chaoxing password");
+			chaoxing = new Chaoxing(username, password);
+			if (chaoxing.logined)
+				alert("Logined successfully.");
+			else
+				alert("Login failed.")
+		}
+
+		function 
 	</script>
 </html>
