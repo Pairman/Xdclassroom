@@ -150,7 +150,6 @@
 			url: "https://passport2-api.chaoxing.com/v11/loginregister",
 			dataType: "text",
 			error: function (res, error) {
-				alert(error);
 				document.getElementById("chaoxing-buttons").style.display = "none";
 				if (!navigator.userAgent.includes("ChaoXing") && !navigator.userAgent.includes("WeChat"))
 				    document.getElementById("player0-button-scan").style.display = "none";
