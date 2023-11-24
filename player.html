@@ -153,9 +153,6 @@
 				document.getElementById("chaoxing-buttons").style.display = "none";
 				if (!navigator.userAgent.includes("ChaoXing") && !navigator.userAgent.includes("WeChat"))
 				    document.getElementById("player0-button-scan").style.display = "none";
-			},
-			success: function (output, status, xhr) {
-				alert(xhr.getResponseHeader("Set-Cookie"));
 			}
 		});
 
