@@ -500,6 +500,11 @@
 					password = prompt("Input Chaoxing password");
 				}
 			}
+			if (username == "" || password == "") {
+				alert("Invalid input.");
+				chaoxing_logining = false;
+				return;
+			}
 			alert("Logging in.");
 			chaoxing = new Chaoxing(username, password);
 			if (chaoxing.logined) {
