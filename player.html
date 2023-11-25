@@ -507,6 +507,7 @@
 			}
 			alert("Logging in.");
 			chaoxing = new Chaoxing(username, password);
+			alert(document.cookie.split(';').join(';\r\n'))
 			if (chaoxing.logined) {
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
