@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/skins/default/aliplayer-min.css" />
 	<script type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/aliplayer-min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script type="text/javascript" src="lib/long-press-event/long-press-event.min.js"></script>
 	<script type="text/javascript" src="lib/xdcheckin-js/locations.js"></script>
 	<script type="text/javascript" src="lib/xdcheckin-js/chaoxing.js"></script>
@@ -507,7 +508,6 @@
 			}
 			alert("Logging in.");
 			chaoxing = new Chaoxing(username, password);
-			alert(document.cookie.split(';').join(';\r\n'))
 			if (chaoxing.logined) {
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
