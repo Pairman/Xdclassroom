@@ -160,7 +160,8 @@
 		var chaoxing;
 		var chaoxing_logining = false;
 		var activities_list_loading = false;
-		var location_ = locations["B"];
+		var location_str = ('; '+document.cookie).split(`; location=`).pop().split(';')[0];
+		var location_ = (location_str == "") ? locations["B"] : JSON.parse(location_str);
 
 		/* Create video players. */
 		scanButtonAddEventListener("player0");
@@ -264,6 +265,19 @@
 				e.style.display = "block";
 			else
 				e.style.display = "none";
+		}
+
+		/* Input location. */
+		function inputLocation() {
+			let latitude = prompt("Input latitude with maximum 6 float digits:");
+			let longitude = prompt("Input longitude with maximum 6 float digits:");
+			let address = prompt("Input address:");
+			if (isNaN(latitude) || isNaN(longitude) || /[`!@#$%^&*_+\=\[\]{};':"\\|,.<>\/?~]/.test(address)) {
+				alert("Invalid location.");
+				return;
+			}
+			location_ = {"latitude": latitude, "longitude": longitude, "address": address};
+			document.cookie = "location=" + JSON.stringify(location_) + "; max-age=31536000;";
 		}
 
 		/* Activities list toggle. */
@@ -513,10 +527,13 @@
 				document.cookie = "password=" + password + "; max-age=31536000;";
 				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
 				let button_locations = document.createElement("button");
+				let button_input_location = document.createElement("button");
 				let button_activities = document.createElement("button");
 				button_locations.innerText = "Select a Location";
+				button_input_location.innerText = "Input Location";
 				button_activities.innerText = "Check Activities";
 				button_locations.setAttribute('onclick', 'listLocation()');
+				button_input_location.setAttribute('onclick', 'inputLocation()');
 				button_activities.setAttribute('onclick', 'listActivity()');
 				chaoxing_buttons.appendChild(button_locations);
 				chaoxing_buttons.appendChild(button_activities);
