@@ -372,7 +372,7 @@
 		}
 
 		function loadExtracted() {
-			let input = prompt("Input the extracted URL result:");
+			let input = prompt("Input the extracted URL:");
 			try {
 				let url = new URL(input);
 				reloadClassroom(input, "Extracted");
@@ -383,7 +383,7 @@
 		}
 
 		function slimExtracted() {
-			let input = prompt("Input the extracted URL result:");
+			let input = prompt("Input the extracted URL:");
 			try {
 				let url = new URL(input);
 				let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
