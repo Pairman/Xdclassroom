@@ -386,10 +386,9 @@
 			let input = prompt("Input the extracted URL result:");
 			try {
 				let url = new URL(input);
-				let baseUrl = `${url.protocol}//${url.hostname}${url.pathname}`;
 				let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
 				delete info["type"], info["liveId"];
-				prompt("Slimmed URL:", baseUrl + "info=" + encodeURIComponent(JSON.stringify(info)));
+				prompt("Slimmed URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "/info=" + encodeURIComponent(JSON.stringify(info)));
 			}
 			catch (err) {
 				alert("Invalid URL.");
