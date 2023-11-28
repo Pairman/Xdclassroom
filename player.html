@@ -22,10 +22,11 @@
 
 	<body id="player-body" style="display: none; padding: 0; margin: 0;">
 		<p align="center">
-			<button onclick="listClassroom()">Select a Classroom</button>
+			<button onclick="listClassroom()">Select Classroom</button>
 			<button onclick="reloadClassroom(...randClassroom())">I'm Feeling Lucky</button>
-			<button onclick="extractClassroom()">Extract from LiveId or URL</button>
+			<button onclick="extractClassroom()">Extract from LiveID/URL</button>
 			<button onclick="loadExtracted()">Load Extracted URL</button>
+			<button onclick="slimExtracted()">Slim Extracted URL</button>
 		</p>
 		<div id="classrooms-list-div" style="display: none"></div>
 
@@ -375,6 +376,17 @@
 			try {
 				let url = new URL(input);
 				reloadClassroom(input, "Extracted");
+			}
+			catch (err) {
+				alert("Invalid URL.");
+			}
+		}
+
+		function slimExtracted() {
+			let input = prompt("Input the extracted URL result:");
+			try {
+				let url = new URL(input);
+				
 			}
 			catch (err) {
 				alert("Invalid URL.");
