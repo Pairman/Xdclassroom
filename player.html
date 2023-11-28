@@ -385,7 +385,7 @@
 		function slimExtracted() {
 			let input = prompt("Input the extracted URL result:");
 			try {
-				url = new URL(urlStr);
+				let url = new URL(input);
 				let baseUrl = `${url.protocol}//${url.hostname}${url.pathname}`;
 				let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
 				delete info["type"], info["liveId"];
