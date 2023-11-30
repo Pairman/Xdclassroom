@@ -57,6 +57,9 @@
 			<button id="player0-button-scan" onclick="scan(player0)">Scan (Whole)</button>
 		</p>
 		<div id="player0-div"></div>
+		<p id="player0-scanresult-p" align="center">
+			<div id="player0-decodeddata-div"></div>
+		</p>
 
 		<p align="center">
 			<B style="font-size:40px; font-family: sans-serif">TeacherTrack</B>
@@ -152,8 +155,10 @@
 			dataType: "text",
 			error: function (res, error) {
 				document.getElementById("chaoxing-buttons").style.display = "none";
-				if (!navigator.userAgent.includes("ChaoXing") && !navigator.userAgent.includes("WeChat"))
-				    document.getElementById("player0-button-scan").style.display = "none";
+				if (!navigator.userAgent.includes("ChaoXing") && !navigator.userAgent.includes("WeChat")) {
+					document.getElementById("player0-button-scan").style.display = "none";
+					document.getElementById("player0-scanresult-p").style.display = "none";
+				}
 			}
 		});
 
@@ -468,15 +473,18 @@
 		}
 
 		qrcode.callback = function(decodedData) {
+			document.getElementById("player0-decodeddata-div").innerHTML = "Scan Result: <br>" + decodedData;
 			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") != 0)
 				return;
 			try {
 				if (chaoxing.logined) {
 					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location_);
-					if (checkin)
+					if (checkin) {
 						alert("Checked in successfully.");
+					}
 				}
 				else {
+					document.getElementById("player0-decodeddata-div").innerHTML = "Checkin failed: <br>" + decodedData;
 					window.open(decodedData, '_blank').focus();
 				}
 			}
