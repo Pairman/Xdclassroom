@@ -488,7 +488,9 @@
 					window.open(decodedData, '_blank').focus();
 				}
 			}
-			catch (error) {}
+			catch (error) {
+				document.getElementById("player0-decodeddata-div").innerHTML = "Checkin Error: <br>" + error.message + " <br>" + decodedData;
+			}
 		};
 
 		/* Long press event for mode switching of scan button. */
