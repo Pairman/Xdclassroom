@@ -479,12 +479,12 @@
 			try {
 				if (chaoxing.logined) {
 					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location_);
-					if (checkin) {
+					if (checkin)
 						alert("Checked in successfully.");
-					}
+					else
+						document.getElementById("player0-decodeddata-div").innerHTML = "Checkin failed: <br>" + decodedData;
 				}
 				else {
-					document.getElementById("player0-decodeddata-div").innerHTML = "Checkin failed: <br>" + decodedData;
 					window.open(decodedData, '_blank').focus();
 				}
 			}
