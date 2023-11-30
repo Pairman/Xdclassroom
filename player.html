@@ -477,7 +477,7 @@
 			if (decodedData.indexOf("https://mobilelearn.chaoxing.com/widget/sign") != 0)
 				return;
 			try {
-				if (chaoxing.logined) {
+				if (chaoxing_logined) {
 					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location_);
 					if (checkin)
 						alert("Checked in successfully.");
