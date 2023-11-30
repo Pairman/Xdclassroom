@@ -165,6 +165,7 @@
 		/* Initialize Chaoxing class and location. */
 		var chaoxing;
 		var chaoxing_logining = false;
+		var chaoxing_logined = false;
 		var activities_list_loading = false;
 		var location_str = ('; '+document.cookie).split(`; location=`).pop().split(';')[0];
 		var location_ = (location_str == "") ? locations["B"] : JSON.parse(location_str);
@@ -544,6 +545,7 @@
 			}
 			alert("Logging in.");
 			chaoxing = new Chaoxing(username, password);
+			chaoxing_logined = chaoxing.logined;
 			if (chaoxing.logined) {
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
