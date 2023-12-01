@@ -167,6 +167,7 @@
 		var chaoxing;
 		var chaoxing_logining = false;
 		var chaoxing_logined = false;
+		var curriculum = {};
 		var activities_list_loading = false;
 		var location_str = ('; '+document.cookie).split(`; location=`).pop().split(';')[0];
 		var location_ = (location_str == "") ? locations["B"] : JSON.parse(location_str);
@@ -266,6 +267,38 @@
 				e.style.display = "none";
 		}
 
+		function tablifyCurriculum() {
+			let table = document.createElement("table");
+			table.border = "1";
+			let tableBody = document.createElement("tbody");
+			for (let class_id in curriculum) {
+				let course = curriculum[class_id];
+					let tr = document.createElement("tr");
+				let td = document.createElement("td");
+				td.appendChild(document.createTextNode(course["name"]));
+				tr.appendChild(td);
+				td = document.createElement("td");
+				for (i in course["teacher"]) {
+					td.appendChild(document.createTextNode(course["teacher"][i] + " "));
+				}
+				tr.appendChild(td);
+				td = document.createElement("td");
+				td.appendChild(document.createTextNode(course["location"]));
+				tr.appendChild(td);
+				tableBody.appendChild(tr);
+			}
+			table.appendChild(tableBody);
+			document.getElementById("curriculum-list-div").appendChild(table);
+		}
+
+		function listCurriculum() {
+			let e = document.getElementById("curriculum-list-div");
+			if (e.style.display == "none")
+				e.style.display = "block";
+			else
+				e.style.display = "none";
+		}
+
 		/* Locations list toggle. */
 		function listLocation() {
 			let e = document.getElementById("locations-list-div");
@@ -329,38 +362,6 @@
 				e.style.display = "none";
 			}
 			activities_list_loading = false;
-		}
-
-		function tablifyCurriculum() {
-			let table = document.createElement("table");
-			table.border = "1";
-			let tableBody = document.createElement("tbody");
-			for (let class_id in curriculum) {
-				let course = curriculum[class_id];
-					let tr = document.createElement("tr");
-				let td = document.createElement("td");
-				td.appendChild(document.createTextNode(course["name"]));
-				tr.appendChild(td);
-				td = document.createElement("td");
-				for (i in course["teacher"]) {
-					td.appendChild(document.createTextNode(course["teacher"][i] + " "));
-				}
-				tr.appendChild(td);
-				td = document.createElement("td");
-				td.appendChild(document.createTextNode(course["location"]));
-				tr.appendChild(td);
-				tableBody.appendChild(tr);
-			}
-			table.appendChild(tableBody);
-			document.getElementById("curriculum-list-div").appendChild(table);
-		}
-
-		function listCurriculum() {
-			let e = document.getElementById("curriculum-list-div");
-			if (e.style.display == "none")
-				e.style.display = "block";
-			else
-				e.style.display = "none";
 		}
 
 		/* Video sources control. */
@@ -583,6 +584,7 @@
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
 				document.cookie = "password=" + password + "; max-age=31536000;";
+				curriculum = chaoxing.curriculum;
 				tablifyCurriculum();
 				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
 				let button_curriculum = document.createElement("button");
