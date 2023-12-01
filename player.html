@@ -35,6 +35,7 @@
 		</p>
 		<div id="locations-list-div" style="display: none"></div>
 		<div id="activities-list-div" style="display: none"></div>
+		<div id="curriculum-list-div" style="display: none"></div>
 
 		<p align="center">
 			<B id="title" style="font-size:48px; font-family: sans-serif">Xdclassoom</B>
@@ -330,6 +331,38 @@
 			activities_list_loading = false;
 		}
 
+		function tablifyCurriculum() {
+			let table = document.createElement("table");
+			table.border = "1";
+			let tableBody = document.createElement("tbody");
+			for (let class_id in curriculum) {
+				let course = curriculum[class_id];
+					let tr = document.createElement("tr");
+				let td = document.createElement("td");
+				td.appendChild(document.createTextNode(course["name"]));
+				tr.appendChild(td);
+				td = document.createElement("td");
+				for (i in course["teacher"]) {
+					td.appendChild(document.createTextNode(course["teacher"][i] + " "));
+				}
+				tr.appendChild(td);
+				td = document.createElement("td");
+				td.appendChild(document.createTextNode(course["location"]));
+				tr.appendChild(td);
+				tableBody.appendChild(tr);
+			}
+			table.appendChild(tableBody);
+			document.getElementById("curriculum-list-div").appendChild(table);
+		}
+
+		function listCurriculum() {
+			let e = document.getElementById("curriculum-list-div");
+			if (e.style.display == "none")
+				e.style.display = "block";
+			else
+				e.style.display = "none";
+		}
+
 		/* Video sources control. */
 		function setClassroom(urlStr, classroomNameInternal = "Unknown") {
 			let url = new URL(urlStr);
@@ -550,17 +583,23 @@
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
 				document.cookie = "password=" + password + "; max-age=31536000;";
+				tablifyCurriculum();
 				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
+				let button_curriculum = document.createElement("button");
 				let button_locations = document.createElement("button");
 				let button_input_location = document.createElement("button");
 				let button_activities = document.createElement("button");
-				button_locations.innerText = "Select a Location";
+				button_curriculum.innerText = "Show Curriculum";
+				button_locations.innerText = "Set Location";
 				button_input_location.innerText = "Input Location";
 				button_activities.innerText = "Check Activities";
+				button_curriculum.setAttribute('onclick', 'listCurriculum()');
 				button_locations.setAttribute('onclick', 'listLocation()');
 				button_input_location.setAttribute('onclick', 'inputLocation()');
 				button_activities.setAttribute('onclick', 'listActivity()');
+				chaoxing_buttons.appendChild(button_curriculum);
 				chaoxing_buttons.appendChild(button_locations);
+				chaoxing_buttons.appendChild(button_input_location);
 				chaoxing_buttons.appendChild(button_activities);
 				document.getElementById("chaoxing-login-button").style.display = "none";
 			}
