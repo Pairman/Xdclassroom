@@ -169,6 +169,7 @@
 		var chaoxing;
 		var chaoxing_logining = false;
 		var chaoxing_logined = false;
+		var courses = {};
 		var curriculum = {};
 		var activities_list_loading = false;
 		var location_str = ('; '+document.cookie).split(`; location=`).pop().split(';')[0];
@@ -338,7 +339,7 @@
 					for (let class_id in activities) {
 						let class_activities = activities[class_id];
 						let div = document.createElement("div");
-						div.innerText = activities[class_id]["name"] + ": ";
+						div.innerText = courses[class_id]["name"] + ": ";
 						e.appendChild(div);
 						for (let i in class_activities) {
 							let activity = class_activities[i];
@@ -585,6 +586,7 @@
 				alert("Logged in successfully.");
 				document.cookie = "username=" + username + "; max-age=31536000;";
 				document.cookie = "password=" + password + "; max-age=31536000;";
+				courses = chaoxing.courses
 				curriculum = chaoxing.curriculum;
 				tablifyCurriculum();
 				let chaoxing_buttons = document.getElementById("chaoxing-buttons");
