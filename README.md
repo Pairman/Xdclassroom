@@ -6,4 +6,5 @@ Collection of easy-to-watch classroom livestreams.
 
 ## Credits
 [LazarSoft/jsqrcode](https://github.com/LazarSoft/jsqrcode) <br>
-[john-doherty/long-press-event](https://github.com/john-doherty/long-press-event)
+[john-doherty/long-press-event](https://github.com/john-doherty/long-press-event) <br>
+[Pairman/Xdcheckin](https://github.com/Pairman/Xdcheckin/tree/js)
