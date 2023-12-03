@@ -339,8 +339,10 @@
 				activities = chaoxing.get_activities();
 				if (!Object.keys(activities).length) {
 					e.innerHTML = "No ongoing activities.";
+					e.style.display = "block";
 				}
 				else {
+					e.style.display = "block";
 					e.replaceChildren();
 					for (let class_id in activities) {
 						let class_activities = activities[class_id];
@@ -364,7 +366,6 @@
 						}
 					}
 				}
-				e.style.display = "block";
 			}
 			else {
 				e.style.display = "none";
