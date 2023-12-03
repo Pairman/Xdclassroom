@@ -321,7 +321,7 @@
 			let latitude = prompt("Input latitude with maximum 6 float digits:");
 			let longitude = prompt("Input longitude with maximum 6 float digits:");
 			let address = prompt("Input address:");
-			if (isNaN(latitude) || isNaN(longitude) || /[`!@#$%^&*_+\=\[\]{};':"\\|,.<>\/?~]/.test(address)) {
+			if (!latitude || !longitude || isNaN(latitude) || isNaN(longitude) || /[`!@#$%^&*_+\=\[\]{};':"\\|,.<>\/?~]/.test(address)) {
 				alert("Invalid location.");
 				return;
 			}
@@ -411,6 +411,8 @@
 				let liveId = JSON.parse(params.get("liveId"));
 			}
 			catch (err) {
+				if (!input)
+					return;
 				if (input.length != 8 || isNaN(input)) {
 					alert("Invalid liveId.");
 					return;
@@ -427,6 +429,8 @@
 				reloadClassroom(input, "Extracted");
 			}
 			catch (err) {
+				if (!input)
+					return;
 				alert("Invalid URL.");
 			}
 		}
@@ -441,6 +445,8 @@
 				prompt("Slimmed URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "/info=" + encodeURIComponent(JSON.stringify(info)));
 			}
 			catch (err) {
+				if (!input)
+					return;
 				alert("Invalid URL.");
 			}
 		}
@@ -571,7 +577,7 @@
 			chaoxing_logining = true;
 			username = ('; '+document.cookie).split(`; username=`).pop().split(';')[0];
 			password = ('; '+document.cookie).split(`; password=`).pop().split(';')[0];
-			if (username == "" || password == "") {
+			if (!username || !password) {
 				username = prompt("Input Chaoxing username:");
 				password = prompt("Input Chaoxing password");
 			}
@@ -581,7 +587,10 @@
 					password = prompt("Input Chaoxing password");
 				}
 			}
-			if (username == "" || password == "") {
+			if (username == null || password == null)
+				chaoxing_logining = false;
+				return;
+			if (!username || !password) {
 				alert("Invalid input.");
 				chaoxing_logining = false;
 				return;
