@@ -336,13 +336,14 @@
 			activities_list_loading = true;
 			let e = document.getElementById("activities-list-div");
 			if (e.style.display == "none") {
+				e.innerHTML = "Loading activities.";
+				e.style.display = "block";
 				activities = chaoxing.get_activities();
 				if (!Object.keys(activities).length) {
 					e.innerHTML = "No ongoing activities.";
-					e.style.display = "block";
 				}
 				else {
-					e.style.display = "block";
+					e.innerHTML = "";
 					e.replaceChildren();
 					for (let class_id in activities) {
 						let class_activities = activities[class_id];
