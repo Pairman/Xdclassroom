@@ -411,9 +411,7 @@
 				let liveId = JSON.parse(params.get("liveId"));
 			}
 			catch (err) {
-				if (!input)
-					return;
-				if (input.length != 8 || isNaN(input)) {
+				if (!input || input.length != 8 || isNaN(input)) {
 					alert("Invalid liveId.");
 					return;
 				}
@@ -429,8 +427,6 @@
 				reloadClassroom(input, "Extracted");
 			}
 			catch (err) {
-				if (!input)
-					return;
 				alert("Invalid URL.");
 			}
 		}
@@ -445,8 +441,6 @@
 				prompt("Slimmed URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "/info=" + encodeURIComponent(JSON.stringify(info)));
 			}
 			catch (err) {
-				if (!input)
-					return;
 				alert("Invalid URL.");
 			}
 		}
@@ -587,9 +581,6 @@
 					password = prompt("Input Chaoxing password");
 				}
 			}
-			if (username == null || password == null)
-				chaoxing_logining = false;
-				return;
 			if (!username || !password) {
 				alert("Invalid input.");
 				chaoxing_logining = false;
