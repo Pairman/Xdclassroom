@@ -1,0 +1,4 @@
+[submodule "lib/xdcheckin-js"]
+	path = lib/xdcheckin-js
+	url = https://github.com/Pairman/Xdcheckin
+	branch = js
