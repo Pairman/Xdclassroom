@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="#"/>
+	<link rel="stylesheet" href="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" src="https://g.alicdn.com/apsara-media-box/imp-web-player/2.18.1/aliplayer-min.js"></script>
+	<!-- var urls = ["*.m3u8", "*.m3u8", ...]; -->
+	<script id="urls-script"></script>
+
+	<head>
+		<style>
+			div {font-size:22px; font-family: sans-serif;}
+			button {height: 40px; font-size: 22px; user-select: none;}
+		</style>
+	</head>
+
+	<body id="player-body" style="padding: 0; margin: 0;">
+		<p align="center">
+			<div id="titlediv" style="text-align: center;"></div>
+			<B style="font-size:40px; font-family: sans-serif" id ="title">PPTVideo</B>
+			&emsp;&emsp;
+			<button onclick="play(player0)">Play</button>
+			<button onclick="stop(player0)">Stop</button>
+			<button onclick="resize()">Resz</button>
+		</p>
+		<p align="center">
+			<input type="file" id="file-input"/>
+			<button onclick="swapTeacherTrackFull()">Swtf</button>
+			<button onclick="compose()">Comp</button>
+			<button onclick="jump()">Jump</button>
+			<button onclick="prev()">Prev</button>
+			<button onclick="next()">Next</button>
+			<button onclick="nextFour()">Four</button>
+			<button onclick="nextFive()">Five</button>
+			<button onclick="composeLazy()">Lazy</button>
+		</p>
+		<div id="player0-div"></div>
+		<div id="titlediv1" style="text-align: center;"></div>
+	</body>
+
+	<script>
+		/* Calculate video player dimensions. */
+		var strWidth = "", strHeight = "";
+		calculatePlayerSize();
+		document.getElementById("file-input").addEventListener("change", readFile, false);
+		var index = 0;
+		var url = "";
+		var player0 = undefined;
+
+		/*
+	 	 * Function definitions.
+	   	 */
+
+		/* Player size controls. */
+		function getScrollBarWidth() {
+			let e = document.createElement("div");
+			e.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
+			document.body.appendChild(e);
+			let w = e.offsetWidth - e.clientWidth;
+			e.remove();
+			return w;
+		}
+
+		function calculatePlayerSize(){
+			let w = (window.innerWidth - getScrollBarWidth());
+			let h = parseInt(w / 16 * 9);
+			strWidth = w.toString() + "px";
+			strHeight = h.toString() + "px";
+		}
+
+		function resize() {
+			calculatePlayerSize();
+			player0.setPlayerSize(parseInt(strWidth / 3), parseInt(strHeight / 3));
+		}
+
+		/* Video sources control. */
+		function setClassroom(index) {
+			url = urls[index];
+			document.getElementById("title").innerText = "[" + index + "]";
+			document.getElementById("titlediv").innerText = "[" + url + "]";
+			document.getElementById("titlediv1").innerText = "[" + url + "]\n[" + urls[index + 1] + "]\n[" + urls[index + 2] + "]\n[" + urls[index + 3] + "]";
+		}
+
+		function reloadClassroom(index) {
+			setClassroom(index);
+			player0.loadByUrl(url);
+		}
+
+		function readFile(e) {
+			let file = e.target.files[0];
+			if (!file)
+				return;
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById("urls-script").innerText = e.target.result;
+				alert("urls.length: " + urls.length);
+				setClassroom(index);
+				player0 = new Aliplayer({
+					id: "player0-div",
+					isLive: true,
+					useH5Prism: true,
+					width: strWidth,
+					height: strHeight,
+					autoplay: true,
+					playsinline: true,
+					source: url
+				}, function(player0) {
+					player0.mute();
+					player0.play();
+				});
+			};
+			reader.readAsText(file);
+		}
+
+		function compose() {
+			cn = prompt("cn");
+			tf = prompt("tf");
+			tt = prompt("tt");
+			pv = prompt("pv");
+			sf = prompt("sf");
+			let info_new = {"videoPath": {}};
+			info_new["videoPath"]["teacherFull"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + tf +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["teacherTrack"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + tt +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["pptVideo"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + pv +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["studentFull"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + sf +"/0/MAIN/TCP/live.m3u8"
+			let url_new = `http://newesxidian.chaoxing.com/threepart/index-alihls.html` + "?info=" + encodeURIComponent(JSON.stringify(info_new));
+			prompt("[" + cn + "]", "		\"" + cn + "\":	\"" + url_new + "\",\n");
+		}
+
+		function composeLazy() {
+			cn = prompt("cn");
+			tf = prompt("tf");
+			tt = (parseInt(tf) + 1).toString();
+			pv = (parseInt(tf) + 2).toString();
+			sf = (parseInt(tf) + 4).toString();
+			let info_new = {"videoPath": {}};
+			info_new["videoPath"]["teacherFull"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + tf +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["teacherTrack"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + tt +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["pptVideo"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + pv +"/0/MAIN/TCP/live.m3u8"
+			info_new["videoPath"]["studentFull"] = "http://202.117.115.99:8092/pag/202.117.115.50/7302/00" + sf +"/0/MAIN/TCP/live.m3u8"
+			let url_new = `http://newesxidian.chaoxing.com/threepart/index-alihls.html` + "?info=" + encodeURIComponent(JSON.stringify(info_new));
+			prompt("[" + cn + "]", "		\"" + cn + "\":	\"" + url_new + "\",\n");
+		}
+
+		function swapTeacherTrackFull() {
+			let input = prompt("swtf:");
+			try {
+				let url = new URL(input);
+				let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
+				tf = info["videoPath"]["teacherFull"];
+				tt = info["videoPath"]["teacherTrack"];
+				info["videoPath"]["teacherFull"] = tt;
+				info["videoPath"]["teacherTrack"] = tf;
+				prompt("Slimmed URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info)));
+			}
+			catch (err) {
+				alert("Invalid URL.");
+			}
+		}
+
+		/* Prettify classroom urls. */
+		function prettifyUrls() {
+			let urls_new = {}
+			for (let building_name in urls) {
+				urls_new[building_name] = {};
+				let building_urls = urls[building_name];
+				for (let classroom_name in building_urls) {
+					let classroom_url = building_urls[classroom_name];
+					let url = new URL(classroom_url);
+					let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
+					let info_new = {"videoPath": {}};
+					info_new["videoPath"]["teacherFull"] = info["videoPath"]["teacherFull"];
+					info_new["videoPath"]["teacherTrack"] = info["videoPath"]["teacherTrack"];
+					info_new["videoPath"]["pptVideo"] = info["videoPath"]["pptVideo"];
+					info_new["videoPath"]["studentFull"] = info["videoPath"]["studentFull"];
+					let classroom_url_new = `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info_new));
+					urls_new[building_name][classroom_name] = classroom_url_new;
+				}
+			}
+			return urls_new;
+		}
+
+		function jump() {
+			index = parseInt(prompt("index"));
+			reloadClassroom(index);
+		}
+
+		function next() {
+			index++;
+			reloadClassroom(index);
+		}
+
+		function nextFour() {
+			index += 4;
+			reloadClassroom(index);
+		}
+
+		function nextFive() {
+			index += 5;
+			reloadClassroom(index);
+		}
+
+		function prev() {
+			index--;
+			reloadClassroom(index);
+		}
+
+		function play(player) {
+			player.initPlay();
+		}
+
+		function stop(player) {
+			player.stop();
+		}
+	</script>
+</html>
