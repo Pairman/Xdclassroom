@@ -17,7 +17,7 @@
 	<body id="player-body" style="padding: 0; margin: 0;">
 		<p align="center">
 			<div id="titlediv" style="text-align: center;"></div>
-			<B style="font-size:40px; font-family: sans-serif" id ="title">Index</B>
+			<B style="font-size:40px; font-family: sans-serif" id ="title">PPTVideo</B>
 			&emsp;&emsp;
 			<button onclick="play(player0)">Play</button>
 			<button onclick="stop(player0)">Stop</button>
@@ -62,8 +62,8 @@
 		}
 
 		function calculatePlayerSize(){
-			let w = parseInt((window.innerWidth - getScrollBarWidth()) / 3);
-			let h = parseInt(w / 16 * 9 / 3);
+			let w = window.innerWidth - getScrollBarWidth();
+			let h = parseInt(w / 16 * 9);
 			strWidth = w.toString() + "px";
 			strHeight = h.toString() + "px";
 		}
