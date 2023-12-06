@@ -39,7 +39,6 @@
 	</body>
 
 	<script>
-		/* Calculate video player dimensions. */
 		var strWidth = "", strHeight = "";
 		calculatePlayerSize();
 		document.getElementById("file-input").addEventListener("change", readFile, false);
@@ -47,11 +46,6 @@
 		var url = "";
 		var player0 = undefined;
 
-		/*
-	 	 * Function definitions.
-	   	 */
-
-		/* Player size controls. */
 		function getScrollBarWidth() {
 			let e = document.createElement("div");
 			e.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
@@ -73,7 +67,6 @@
 			player0.setPlayerSize(parseInt(strWidth / 3), parseInt(strHeight / 3));
 		}
 
-		/* Video sources control. */
 		function setClassroom(index) {
 			url = urls[index];
 			document.getElementById("title").innerText = "[" + index + "]";
@@ -158,7 +151,6 @@
 			}
 		}
 
-		/* Prettify classroom urls. */
 		function prettifyUrls() {
 			let urls_new = {}
 			for (let building_name in urls) {
