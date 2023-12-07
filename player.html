@@ -551,7 +551,8 @@
 						document.getElementById("player0-decodeddata-div").innerHTML = "Checkin failed: <br>" + decodedData;
 				}
 				else {
-					window.open(decodedData, '_blank').focus();				}
+					window.open(decodedData, '_blank').focus();
+				}
 			}
 			catch (error) {
 				document.getElementById("player0-decodeddata-div").innerHTML = "Checkin Error: <br>" + error.message + " <br>" + decodedData;
