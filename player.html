@@ -543,7 +543,6 @@
 			if (decodedData.indexOf("mobilelearn.chaoxing.com/widget/sign") == -1)
 				return;
 			try {
-				window.open(decodedData, '_blank').focus();
 				if (chaoxing_logined) {
 					let checkin = chaoxing.checkin_checkin_qrcode_url(decodedData, location_);
 					if (checkin)
@@ -552,7 +551,7 @@
 						document.getElementById("player0-decodeddata-div").innerHTML = "Checkin failed: <br>" + decodedData;
 				}
 				else {
-									}
+					window.open(decodedData, '_blank').focus();				}
 			}
 			catch (error) {
 				document.getElementById("player0-decodeddata-div").innerHTML = "Checkin Error: <br>" + error.message + " <br>" + decodedData;
