@@ -142,8 +142,11 @@
 			prompt("[" + cn + "]", "		\"" + cn + "\":	\"" + url_new + "\",\n");
 		}
 
-		function swapTeacherTrackFull() {
-			let input = prompt("swtf:");
+		function swapTeacherTrackFull(input_ = "") {
+			if (input_ == "")
+				input = prompt("swtf:");
+			else
+				input = input_;
 			try {
 				let url = new URL(input);
 				let info = JSON.parse((new URLSearchParams(decodeURIComponent(url.search))).get("info"));
@@ -154,10 +157,17 @@
 				if (tt_i > tf_i) {
 					info["videoPath"]["teacherFull"] = tt;
 					info["videoPath"]["teacherTrack"] = tf;
-					prompt("Swapped URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info)));
+					url_new = `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info));
+					if (input_ == "")
+						prompt("Swapped URL:", url_new);
+					else
+						return url_new;
 				}
 				else {
-					prompt("Not swapped:", input)
+					if (input_ == "")
+						prompt("Not swapped:", input);
+					else
+						console.log("Not swapped: " + input_);	
 				}
 			}
 			catch (err) {
