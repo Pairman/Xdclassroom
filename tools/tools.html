@@ -154,10 +154,10 @@
 				if (tt_i > tf_i) {
 					info["videoPath"]["teacherFull"] = tt;
 					info["videoPath"]["teacherTrack"] = tf;
-					prompt("Slimmed URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info)));
+					prompt("Swapped URL:", `${url.protocol}//${url.hostname}${url.pathname}` + "?info=" + encodeURIComponent(JSON.stringify(info)));
 				}
 				else {
-					prompt("Not slimmed:", input)
+					prompt("Not swapped:", input)
 				}
 			}
 			catch (err) {
