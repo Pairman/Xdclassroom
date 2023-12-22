@@ -142,7 +142,7 @@
 
 		/* Initialize classroom name and urls. */
 		var classroomName = ('; '+document.cookie).split(`; classroomName=`).pop().split(';')[0];
-		var classroom = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
+		// var classroom = ('; '+document.cookie).split(`; classroom=`).pop().split(';')[0];
 		var pptVideo, teacherTrack, teacherFull, studentFull;
 		if (classroom == '' || classroomName == '')
 			[classroom, classroomName] = randClassroom();
