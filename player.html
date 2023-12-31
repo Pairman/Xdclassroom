@@ -24,8 +24,8 @@
 
 	<body id="player-body" style="display: none; padding: 0; margin: 0;">
 		<div id="xdcheckin-update-div" style="text-align: center; font-weight: bold;">
-			This website is deprecated. <br>
-			<div id="deprecation-countdown-div"></div><br>
+			This website is deprecated in<br>
+			<div id="deprecation-countdown-div" style="font-size: 36px"></div><br>
 			<a href="https://github.com/Pairman/Xdcheckin/releases/latest">Use APP instead! Download Xdcheckin here.</a>
 		</div>
 		<p align="center">
@@ -112,10 +112,10 @@
 		/* Check EULA state. */
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 			window.location.href = '../';
-		else if ((new Date()).toUTCString() < (new Date("2024-01-01 0:00:00")).toUTCString()) {
+		else if (new Date().toUTCString() < new Date("2024-01-01 00:00:00").toUTCString()) {
 			document.getElementById("player-body").style.display = "block";
 			let deprecation_countdown = setInterval(function () {
-				let time = new Date("2024-01-01 00:00:00 UTC").getTime() - new Date().getTime();
+				let time = let time = new Date(new Date("2024-01-01 00:00:00").toUTCString()).getTime() - new Date(new Date().toUTCString()).getTime();
 				let days = Math.floor(time / (1000 * 60 * 60 * 24));
 				let hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 				let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
@@ -123,7 +123,7 @@
 				if (time < 0)
 					clearInterval(deprecation_countdown);
 				else
-					document.getElementById("deprecation-countdown-div").innerText = "Time remaining: " + days + "d" + hours + "h" + minutes + "m" + seconds + "s";
+					document.getElementById("deprecation-countdown-div").innerText = days + " days, " + hours + " hours, " + minutes + " minutes and " + seconds + " seconds";
 			}, 1000);
 		}
 
