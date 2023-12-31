@@ -111,7 +111,7 @@
 		/* Check EULA state. */
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 			window.location.href = '../';
-		else if ((new Date()) < (new Date("2024-01-01 0:00:00")))
+		else if ((new Date()).toUTCString() < (new Date("2024-01-01 0:00:00")).toUTCString())
 			document.getElementById("player-body").style.display = "block";
 
 		/* Calculate video player dimensions. */
