@@ -115,7 +115,7 @@
 		else if (new Date().toUTCString() < new Date("2024-01-01 00:00:00").toUTCString()) {
 			document.getElementById("player-body").style.display = "block";
 			let deprecation_countdown = setInterval(function () {
-				let time = let time = new Date(new Date("2024-01-01 00:00:00").toUTCString()).getTime() - new Date(new Date().toUTCString()).getTime();
+				let time = new Date(new Date("2024-01-01 00:00:00").toUTCString()).getTime() - new Date(new Date().toUTCString()).getTime();
 				let days = Math.floor(time / (1000 * 60 * 60 * 24));
 				let hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 				let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
