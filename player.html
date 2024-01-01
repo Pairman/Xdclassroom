@@ -24,7 +24,7 @@
 
 	<body id="player-body" style="display: none; padding: 0; margin: 0;">
 		<div id="xdcheckin-update-div" style="text-align: center; font-weight: bold;">
-			This website is deprecated in<br>
+			<div id="deprecation-warning-div">This website is deprecated in</div><br>
 			<div id="deprecation-countdown-div" style="font-size: 36px"></div><br>
 			<a href="https://github.com/Pairman/Xdcheckin/releases/latest">Use APP instead! Download Xdcheckin here.</a>
 		</div>
@@ -112,7 +112,7 @@
 		/* Check EULA state. */
 		if (('; ' + document.cookie).split(`; eula=`).pop().split(';')[0] != 1)
 			window.location.href = '../';
-		else if (new Date().toUTCString() < new Date("2024-01-01 00:00:00").toUTCString()) {
+		else if (new Date(new Date().toUTCString()) < new Date(new Date("2024-01-01 00:00:00").toUTCString())) {
 			document.getElementById("player-body").style.display = "block";
 			let deprecation_countdown = setInterval(function () {
 				let time = new Date(new Date("2024-01-01 00:00:00").toUTCString()).getTime() - new Date(new Date().toUTCString()).getTime();
@@ -125,6 +125,10 @@
 				else
 					document.getElementById("deprecation-countdown-div").innerText = days + " days, " + hours + " hours, " + minutes + " minutes and " + seconds + " seconds";
 			}, 1000);
+		}
+		else {
+			document.getElementById("deprecation-warning-div").style.display = "none";
+			document.getElementById("deprecation-countdown-div").style.display = "none";
 		}
 
 		/* Calculate video player dimensions. */
